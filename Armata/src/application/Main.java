@@ -10,7 +10,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Armata armata=new Armata(primaryStage);
+			Game armata=new Game(primaryStage);
 			primaryStage.show();
 			
 		} catch(Exception e) {
