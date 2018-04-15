@@ -34,7 +34,7 @@ public class Sprite {
 	}
 	public void update(double time) {
 		this.x=this.x+this.dx*time;
-		this.y=this.x+this.dy*time;
+		this.y=this.y+this.dy*time;
 		this.render();
 	}
 	public Image getImage() {

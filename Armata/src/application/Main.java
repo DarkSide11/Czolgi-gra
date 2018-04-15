@@ -13,6 +13,9 @@ public class Main extends Application {
 			Game armata=new Game(primaryStage);
 			primaryStage.show();
 			
+					
+			
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
