@@ -11,7 +11,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Game armata=new Game(primaryStage);
-			primaryStage.show();
 			
 					
 			

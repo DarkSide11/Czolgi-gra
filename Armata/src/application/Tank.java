@@ -9,6 +9,7 @@ public class Tank extends Sprite {
 	Image cannon ;
 	ImageView cannonView;
 	double cannonAngle;
+	double cannonSpeed=0;
 
 
 	public Tank(Pane pane,double xPos, double yPos, double xVel, double yVel, double InitialHealth, String tankImageURL,String cannonImageURL) {
@@ -23,8 +24,24 @@ public class Tank extends Sprite {
 	public  void render() {
 		
 		imageView.relocate(x, y);
-		cannonView.relocate(x-30, y+30);
-		cannonView.setRotate(5);
+		cannonView.relocate(x+110, y-75);
+		cannonView.resize(500, 500);
+		cannonView.autosize();
+		cannonView.setFitHeight(200);
+		cannonView.setRotate(90-cannonAngle);
 	}
 
+	@Override
+	public void update(double time) {
+		super.update(time);
+		this.cannonAngle=this.cannonAngle+cannonSpeed*time;
+		
+	}
+	public double getCannonSpeed() {
+		return cannonSpeed;
+	}
+	public void setCannonSpeed(double cannonSpeed) {
+		this.cannonSpeed = cannonSpeed;
+	}
+	
 }

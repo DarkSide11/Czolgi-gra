@@ -45,8 +45,8 @@ public class Game {
 			switch(e.getCode()) {
 			case LEFT:tank1.setDx(-1); break;
 			case RIGHT:tank1.setDx(1); break;
-			case UP:tank1.setDy(-1); break;
-			case DOWN:tank1.setDy(1); break;
+			case UP:tank1.setCannonSpeed(1); break;
+			case DOWN:tank1.setCannonSpeed(-1); break;
 			}
 			
 			});
@@ -55,8 +55,8 @@ public class Game {
 			switch(e.getCode()) {
 			case LEFT:tank1.setDx(0); break;
 			case RIGHT:tank1.setDx(0); break;
-			case UP:tank1.setDy(0); break;
-			case DOWN:tank1.setDy(0); break;
+			case UP:tank1.setCannonSpeed(0); break;
+			case DOWN:tank1.setCannonSpeed(0); break;
 			}
 			});
 	}
@@ -82,6 +82,7 @@ public class Game {
 		stage.setTitle("Game screen");
 		startNanoTime = System.nanoTime();
 		this.initialize();
+		primaryStage.show();
 
 	}
 
@@ -108,7 +109,8 @@ public class Game {
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.sizeToScene();
-		tank1 = new Tank(gameAnimationPane, 0, 0, 0, 0, 100, "/icons/czolg.png", "/icons/lufa.png");
+		
+		tank1 = new Tank(gameAnimationPane, 0, 250, 0, 0, 100, "/icons/czolg.png", "/icons/lufa.png");
 		this.keyInput();
 		this.startAnimation();
 
