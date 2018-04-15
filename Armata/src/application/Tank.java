@@ -15,7 +15,16 @@ public class Tank extends Sprite {
 		super(pane,xPos, yPos, xVel, yVel, InitialHealth, "/icons/czolg.png");
 		this.cannon=new Image("/icons/lufa.png");
 		this.cannonAngle=45;
+		cannonView=new ImageView(cannon);
+		this.pane.getChildren().add(cannonView);
 		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public  void render() {
+		
+		imageView.relocate(x, y);
+		cannonView.relocate(x-30, y+30);
+		cannonView.setRotate(5);
 	}
 
 }

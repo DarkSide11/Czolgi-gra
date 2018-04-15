@@ -27,11 +27,10 @@ public class Sprite {
 		this.pane.getChildren().add(imageView);
 	}
 	
-	private void render() {
+	public void render() {
 	
 		imageView.relocate(x, y);
-		imageView.setRotate(45);
-		
+	
 	}
 	public void update(double time) {
 		this.x=this.x+this.dx*time;

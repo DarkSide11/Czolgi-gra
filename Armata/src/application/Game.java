@@ -38,7 +38,7 @@ public class Game {
 			@Override
 			
 			public void handle(long arg0) {
-				frameTime=(System.currentTimeMillis()-animationTime)/100;
+				frameTime=(System.currentTimeMillis()-animationTime)/1000;
 				tank1.update(frameTime);
 			System.out.println(tank1.getX());
 				
