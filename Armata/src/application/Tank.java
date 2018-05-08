@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-public class Tank extends Sprite {
+public abstract class Tank extends Sprite {
 	
 	Image cannon ;
 	ImageView cannonView;
@@ -12,10 +12,9 @@ public class Tank extends Sprite {
 	double cannonSpeed=0;
 
 
-	public Tank(Pane pane,double xPos, double yPos, double xVel, double yVel, double InitialHealth, String tankImageURL,String cannonImageURL) {
-		super(pane,xPos, yPos, xVel, yVel, InitialHealth, "/icons/czolg.png");
-		this.cannon=new Image("/icons/lufa.png");
-		this.cannonAngle=45;
+	public Tank(Pane pane,double xPos, double yPos, double xVel, double yVel, double initialHealth,String tankImageUrl,String tankCannonUrl) {
+		super(pane,xPos, yPos, xVel, yVel, initialHealth, tankImageUrl);
+		this.cannon=new Image(tankCannonUrl);
 		cannonView=new ImageView(cannon);
 		this.pane.getChildren().add(cannonView);
 		// TODO Auto-generated constructor stub
@@ -33,9 +32,20 @@ public class Tank extends Sprite {
 
 	@Override
 	public void update(double time) {
+	
 		super.update(time);
+		if(cannonAngle<=45&&cannonAngle>=0) {
 		this.cannonAngle=this.cannonAngle+cannonSpeed*time;
-		
+		}
+		else
+		{
+			if((this.cannonAngle>45&&cannonSpeed<0)||(this.cannonAngle<0&&cannonSpeed>0)) {
+				this.cannonAngle=this.cannonAngle+cannonSpeed*time;
+			}
+			else {
+				this.cannonAngle=this.cannonAngle;
+			}
+		}
 	}
 	public double getCannonSpeed() {
 		return cannonSpeed;

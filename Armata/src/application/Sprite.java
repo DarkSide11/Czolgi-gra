@@ -13,6 +13,8 @@ public class Sprite {
 	Pane pane;
 	double dx;
 	double dy;
+	double height;
+	double width;
 	
 	double health; 
 	public Sprite(Pane pane,double xPos,double yPos, double xVel,double yVel,double InitialHealth, String ImageURL) {
@@ -25,8 +27,33 @@ public class Sprite {
 		this.image=new Image(ImageURL);
 		this.imageView=new ImageView(image);
 		this.pane.getChildren().add(imageView);
+		this.imageView.setFitHeight(this.image.getHeight());
+		this.imageView.setFitWidth(this.image.getWidth());
+		System.out.println(this.image.getHeight());
+		this.height=imageView.getFitHeight();
+		this.width=imageView.getFitWidth();
+		System.out.println(this.height);
 	}
 	
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.imageView.setFitHeight(height);
+		this.height = height;
+		
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.imageView.setFitWidth(width);
+		this.width = width;
+	}
+
 	public void render() {
 	
 		imageView.relocate(x, y);
