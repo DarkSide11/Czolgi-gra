@@ -53,5 +53,10 @@ public abstract class Tank extends Sprite {
 	public void setCannonSpeed(double cannonSpeed) {
 		this.cannonSpeed = cannonSpeed;
 	}
-	
+	public double getCannonAngle() {
+		return cannonAngle;
+	}
+	public void setCannonAngle(double cannonAngle) {
+		this.cannonAngle = cannonAngle;
+	}
 }
