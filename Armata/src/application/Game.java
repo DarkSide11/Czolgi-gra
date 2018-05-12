@@ -25,7 +25,7 @@ public class Game {
 	private enum GameState {
 		Player1, Player2, EndGame
 	}
-
+	private Tank activeTank=;
 	private Stage stage;
 	private Long startNanoTime;
 	private Scene scene;
@@ -146,6 +146,7 @@ public class Game {
 		tank1 = new TankPlayer1(gameAnimationPane, 0, 250, 0, 0, 100);
 		tank2 = new TankPlayer2(gameAnimationPane, 550, 250, 0, 0, 100);
 		gameObjects.add(tank1);
+		this.activeTank=tank1;
 		gameObjects.add(tank2);
 		this.keyInput();
 		this.startAnimation();
@@ -174,7 +175,9 @@ public class Game {
 				if(a!=i) {
 				if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
 					if(!(gameObjects.get(a) instanceof Shell))
-					gameObjects.get(i).setCollision(true);
+						if(!(gameObjects.get(i)instanceof Shell&&gameObjects.get(a) instanceof this.activeTank.getClass()))
+						gameObjects.get(i).setCollision(true);
+				
 			}}
 
 		}
