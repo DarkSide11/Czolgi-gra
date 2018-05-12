@@ -22,6 +22,9 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class Game {
+	private enum GameState {
+		Player1, Player2, EndGame
+	}
 
 	private Stage stage;
 	private Long startNanoTime;
@@ -60,7 +63,7 @@ public class Game {
 					shell1 = new Shell(gameAnimationPane, tank1.getX() + 100, tank1.getY(), 2, tank1.getCannonAngle());
 					gameObjects.add(shell1);
 				} else {
-					shell1.reset(tank1.getX(), tank1.getY(), tank1.getCannonAngle());
+					shell1.shoot(tank1.getX(), tank1.getY(), tank1.getCannonAngle());
 				}
 				break;
 			}
@@ -97,7 +100,7 @@ public class Game {
 			for (Sprite x : gameObjects) {
 				x.update(frameTime / 5);
 			}
-			handleColisions();
+			handleCollisions();
 
 		}
 
@@ -140,8 +143,8 @@ public class Game {
 		stage.setResizable(false);
 		stage.sizeToScene();
 
-		tank1 = new TankPlayer(gameAnimationPane, 0, 250, 0, 0, 100);
-		tank2 = new TankEnemy(gameAnimationPane, 550, 250, 0, 0, 100);
+		tank1 = new TankPlayer1(gameAnimationPane, 0, 250, 0, 0, 100);
+		tank2 = new TankPlayer2(gameAnimationPane, 550, 250, 0, 0, 100);
 		gameObjects.add(tank1);
 		gameObjects.add(tank2);
 		this.keyInput();
@@ -154,9 +157,9 @@ public class Game {
 		Rectangle rect2 = new Rectangle((int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight());
 
 		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height
-				&& rect1.height + rect1.y >rect2.y) {
+				&& rect1.height + rect1.y > rect2.y) {
 
-			System.out.println("Kolizja" + rect1.height + "  " + rect1.y);
+			System.out.println("Kolizja" + a.getClass() + "  " +b.getClass() );
 			return true;
 
 		} else {
@@ -164,15 +167,16 @@ public class Game {
 		}
 	}
 
-	public void handleColisions() {
+	public void handleCollisions() {
 
-		for (int i = 0; i < gameObjects.size() - 1; i++) {
-			
-					if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(i+1)))
-						gameObjects.get(i).setCollision(true);
-				}
-			
+		for (int i = 0; i < gameObjects.size(); i++) {
+			for (int a = 0; a < gameObjects.size(); a++) {
+				if(a!=i) {
+				if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
+					if(!(gameObjects.get(a) instanceof Shell))
+					gameObjects.get(i).setCollision(true);
+			}}
 
-		
+		}
 	}
 }

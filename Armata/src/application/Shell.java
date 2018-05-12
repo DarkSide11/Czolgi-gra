@@ -3,7 +3,7 @@ package application;
 import javafx.scene.layout.Pane;
 
 public class Shell extends Sprite {
-
+	boolean active=true;
 	double angle=20;
 	double initialSpeed=2;
 	final double gravity=0.01;
@@ -12,24 +12,26 @@ public class Shell extends Sprite {
 		this.angle=aAngle;
 		this.dy=-initialSpeed*Math.sin(Math.toRadians(angle));
 		this.dx=initialSpeed*Math.cos(Math.toRadians(angle));
-		System.out.println(dy);
 	}
 
 	
 	
 
 	public void update(double time) {
+		if(active) {
 		if(collision) {
-			if(dx<0) {this.x+=5;}
-			else {this.x-=5;}	
+			active=false;
+			dx=0;
+			dy=0;
+			x=-1;
+			y=0;
 			collision=false;
 		}
 		this.dy=this.dy+gravity*time;
-		System.out.println(this.dy);
 		this.x=this.x+this.dx*time;
 		this.y=this.y+this.dy*time;
 		this.render();
-	}
+	}}
 	public double getAngle() {
 		return angle;
 	}
@@ -55,13 +57,16 @@ public class Shell extends Sprite {
 		this.initialSpeed = initialSpeed;
 	}
 
-	public void reset(double x, double y, double angle) {
+	public void shoot(double x, double y, double angle) {
+		this.active=true;
 		this.angle=angle;
+		this.dx=initialSpeed*Math.cos(Math.toRadians(angle));
 		this.dy=-initialSpeed*Math.sin(Math.toRadians(angle));
 		this.setAngle(angle);
 		this.setX(x+100);
 		this.setY(y);}
 	}
+
 
 
 

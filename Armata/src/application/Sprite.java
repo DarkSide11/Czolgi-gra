@@ -69,11 +69,7 @@ public class Sprite {
 	
 	}
 	public void update(double time) {
-		if(collision) {
-			if(dx<0) {this.x+=5;}
-			else {this.x-=5;}	
-			collision=false;
-		}
+	
 		this.x=this.x+this.dx*time;
 		this.y=this.y+this.dy*time;
 		this.render();

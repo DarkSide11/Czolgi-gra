@@ -32,8 +32,12 @@ public abstract class Tank extends Sprite {
 
 	@Override
 	public void update(double time) {
-	System.out.println(time);
 		super.update(time);
+		if(collision) {
+			if(dx<=0) {this.x+=5;}
+			else {this.x-=5;}	
+			collision=false;
+		}
 		if(cannonAngle<=45&&cannonAngle>=0) {
 		this.cannonAngle=this.cannonAngle+cannonSpeed*time;
 		}
@@ -42,9 +46,9 @@ public abstract class Tank extends Sprite {
 			if((this.cannonAngle>45&&cannonSpeed<0)||(this.cannonAngle<0&&cannonSpeed>0)) {
 				this.cannonAngle=this.cannonAngle+cannonSpeed*time;
 			}
-			else {
-				this.cannonAngle=this.cannonAngle;
-			}
+			
+				
+			
 		}
 	}
 	public double getCannonSpeed() {
