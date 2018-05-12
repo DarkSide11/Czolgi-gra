@@ -35,7 +35,8 @@ public class Game {
 	private long animationTime = System.currentTimeMillis();
 	private long frameTime = 0;
 	private Tank tank2;
-	private ArrayList<Sprite> gameObjects=new ArrayList<Sprite>();
+	private ArrayList<Sprite> gameObjects = new ArrayList<Sprite>();
+	private Shell shell1;
 
 	public void keyInput() {
 		gameAnimationPane.setFocusTraversable(true);
@@ -84,11 +85,10 @@ public class Game {
 			tank1.update(frameTime / 5);
 			// System.out.println(frameTime/5);
 			animationTime = System.currentTimeMillis();
+			shell1.update(frameTime / 5);
 			tank2.update(frameTime / 5);
-			if (isCollisionBettwen(tank1, tank2)) {
-				System.out.println("Kolizja");
-				
-			}
+
+			handleColisions();
 
 		}
 
@@ -133,6 +133,8 @@ public class Game {
 
 		tank1 = new TankPlayer(gameAnimationPane, 0, 250, 0, 0, 100);
 		tank2 = new TankEnemy(gameAnimationPane, 550, 250, 0, 0, 100);
+		shell1 = new Shell(gameAnimationPane, 300, 250, 0, 0);
+		gameObjects.add(shell1);
 		gameObjects.add(tank1);
 		gameObjects.add(tank2);
 		this.keyInput();
@@ -146,16 +148,25 @@ public class Game {
 
 		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height
 				&& rect1.height + rect1.y > rect2.y) {
+
+			System.out.println("Kolizja" + rect1.height + "  " + rect1.y);
 			return true;
-			
-		}
-		else {
-		return false;
+
+		} else {
+			return false;
 		}
 	}
-	public void handleColisions(){
-		for(Sprite sprite :gameObjects) {
-			boolean a =isCollisionBettwen(sprite,sprite);//todo wykrywanie kolizji dla wybranych obiektów w grze
+
+	public void handleColisions() {
+
+		for (int i = 0; i < gameObjects.size() - 1; i++) {
+			if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(i + 1))) {
+				gameObjects.get(i).setCollision(true);
+
+			}
+			;
+
 		}
+
 	}
 }

@@ -15,7 +15,15 @@ public class Sprite {
 	double dy;
 	double height;
 	double width;
+	boolean collision=false;
 	
+	public boolean isCollision() {
+		return collision;
+	}
+
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
 	double health; 
 	public Sprite(Pane pane,double xPos,double yPos, double xVel,double yVel,double InitialHealth, String ImageURL) {
 		this.pane=pane;
@@ -37,6 +45,7 @@ public class Sprite {
 	
 	public double getHeight() {
 		return height;
+		
 	}
 
 	public void setHeight(double height) {
@@ -60,6 +69,11 @@ public class Sprite {
 	
 	}
 	public void update(double time) {
+		if(collision) {
+			if(dx<0) {this.x+=5;}
+			else {this.x-=5;}	
+			collision=false;
+		}
 		this.x=this.x+this.dx*time;
 		this.y=this.y+this.dy*time;
 		this.render();
@@ -92,7 +106,12 @@ public class Sprite {
 		return dx;
 	}
 	public void setDx(double dx) {
+		System.out.println(this.x);
+		if(this.x>-280&&this.x<800)
 		this.dx = dx;
+		else {
+			this.x=-279;
+			this.dx=0;}
 	}
 	public double getDy() {
 		return dy;
@@ -105,6 +124,9 @@ public class Sprite {
 	}
 	public void setHealth(double health) {
 		this.health = health;
+	}
+	public void multiplyDx(int a) {
+		this.dx=this.dx*a;
 	}
 }
 

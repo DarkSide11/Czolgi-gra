@@ -32,7 +32,7 @@ public abstract class Tank extends Sprite {
 
 	@Override
 	public void update(double time) {
-	
+	System.out.println(time);
 		super.update(time);
 		if(cannonAngle<=45&&cannonAngle>=0) {
 		this.cannonAngle=this.cannonAngle+cannonSpeed*time;
