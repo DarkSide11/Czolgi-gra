@@ -38,18 +38,7 @@ public abstract class Tank extends Sprite {
 			else {this.x-=5;}	
 			collision=false;
 		}
-		if(cannonAngle<=45&&cannonAngle>=0) {
-		this.cannonAngle=this.cannonAngle+cannonSpeed*time;
-		}
-		else
-		{
-			if((this.cannonAngle>45&&cannonSpeed<0)||(this.cannonAngle<0&&cannonSpeed>0)) {
-				this.cannonAngle=this.cannonAngle+cannonSpeed*time;
-			}
-			
-				
-			
-		}
+		
 	}
 	public double getCannonSpeed() {
 		return cannonSpeed;

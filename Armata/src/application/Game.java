@@ -1,6 +1,8 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import com.sun.javafx.geom.Rectangle;
 
@@ -25,7 +27,7 @@ public class Game {
 	private enum GameState {
 		Player1, Player2, EndGame
 	}
-	private Tank activeTank=;
+	private Tank activeTank;
 	private Stage stage;
 	private Long startNanoTime;
 	private Scene scene;
@@ -40,31 +42,59 @@ public class Game {
 	private Tank tank2;
 	private ArrayList<Sprite> gameObjects = new ArrayList<Sprite>();
 	private Shell shell1;
-
+	Executor executor = Executors.newCachedThreadPool();
+   
+	Runnable switchplayer = () -> {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(activeTank==tank1) {activeTank=tank2;}else {activeTank=tank1;}
+			System.out.println("jebaæ wat");
+		
+           
+       };
+	
 	public void keyInput() {
 		gameAnimationPane.setFocusTraversable(true);
-
+		
 		this.gameAnimationPane.setOnKeyPressed(e -> {
 			switch (e.getCode()) {
 			case LEFT:
-				tank1.setDx(-1);
+				activeTank.setDx(-1);
 				break;
 			case RIGHT:
-				tank1.setDx(1);
+				activeTank.setDx(1);
 				break;
 			case UP:
-				tank1.setCannonSpeed(1);
+				int i;
+				if(activeTank==tank1) {i=1;}
+				else {i=-1;}
+				activeTank.setCannonSpeed(i);
 				break;
 			case DOWN:
-				tank1.setCannonSpeed(-1);
+				int i1;
+				if(activeTank==tank1) {i1=-1;}
+				else {i1=1;}
+				activeTank.setCannonSpeed(i1);
 				break;
 			case SPACE:
+				activeTank.setCannonSpeed(0);
+				activeTank.setDx(0);
+				 
 				if (!gameObjects.contains(shell1)) {
-					shell1 = new Shell(gameAnimationPane, tank1.getX() + 100, tank1.getY(), 2, tank1.getCannonAngle());
+					shell1 = new Shell(gameAnimationPane, activeTank.getX() + 100, activeTank.getY(), 2, activeTank.getCannonAngle());
 					gameObjects.add(shell1);
 				} else {
-					shell1.shoot(tank1.getX(), tank1.getY(), tank1.getCannonAngle());
+					shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle());
 				}
+		        executor.execute(switchplayer); 
+			
+				
+			
 				break;
 			}
 
@@ -73,16 +103,16 @@ public class Game {
 		this.gameAnimationPane.setOnKeyReleased(e -> {
 			switch (e.getCode()) {
 			case LEFT:
-				tank1.setDx(0);
+				activeTank.setDx(0);
 				break;
 			case RIGHT:
-				tank1.setDx(0);
+				activeTank.setDx(0);
 				break;
 			case UP:
-				tank1.setCannonSpeed(0);
+				activeTank.setCannonSpeed(0);
 				break;
 			case DOWN:
-				tank1.setCannonSpeed(0);
+				activeTank.setCannonSpeed(0);
 				break;
 
 			}
@@ -136,7 +166,6 @@ public class Game {
 
 		graphicsContext.setFill(Color.GREEN);
 		graphicsContext.fillRect(0, groundCoordinatex, canvas.getWidth(), canvas.getHeight() - this.groundCoordinatex);
-		// graphicsContext.drawImage(tank, 0,this.groundCoordinatex-tank.getHeight());
 
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -175,8 +204,9 @@ public class Game {
 				if(a!=i) {
 				if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
 					if(!(gameObjects.get(a) instanceof Shell))
-						if(!(gameObjects.get(i)instanceof Shell&&gameObjects.get(a) instanceof this.activeTank.getClass()))
+						if(!(gameObjects.get(i)instanceof Shell&&gameObjects.get(a).equals(activeTank)))
 						gameObjects.get(i).setCollision(true);
+						
 				
 			}}
 
