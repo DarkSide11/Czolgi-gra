@@ -24,9 +24,8 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class Game {
-	private enum GameState {
-		Player1, Player2, EndGame
-	}
+	
+	
 	private Tank activeTank;
 	private Stage stage;
 	private Long startNanoTime;
@@ -43,24 +42,22 @@ public class Game {
 	private ArrayList<Sprite> gameObjects = new ArrayList<Sprite>();
 	private Shell shell1;
 	Executor executor = Executors.newCachedThreadPool();
-   
-	Runnable switchplayer = () -> {
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			if(activeTank==tank1) {activeTank=tank2;}else {activeTank=tank1;}
-			System.out.println("jebaæ wat");
-		
-           
-       };
+	Executor executor2 = Executors.newCachedThreadPool();
+	public void switchplayer(){
 	
-	public void keyInput() {
+
+		if (activeTank == tank1) {
+			activeTank = tank2;
+		} else {
+			activeTank = tank1;
+		}
+		System.out.println("jebaæ wat");
+
+	};
+
+	Runnable keyInput = () -> {
 		gameAnimationPane.setFocusTraversable(true);
-		
+
 		this.gameAnimationPane.setOnKeyPressed(e -> {
 			switch (e.getCode()) {
 			case LEFT:
@@ -71,30 +68,42 @@ public class Game {
 				break;
 			case UP:
 				int i;
-				if(activeTank==tank1) {i=1;}
-				else {i=-1;}
+				if (activeTank == tank1) {
+					i = 1;
+				} else {
+					i = -1;
+				}
 				activeTank.setCannonSpeed(i);
 				break;
 			case DOWN:
 				int i1;
-				if(activeTank==tank1) {i1=-1;}
-				else {i1=1;}
+				if (activeTank == tank1) {
+					i1 = -1;
+				} else {
+					i1 = 1;
+				}
 				activeTank.setCannonSpeed(i1);
 				break;
 			case SPACE:
 				activeTank.setCannonSpeed(0);
 				activeTank.setDx(0);
-				 
+
 				if (!gameObjects.contains(shell1)) {
-					shell1 = new Shell(gameAnimationPane, activeTank.getX() + 100, activeTank.getY(), 2, activeTank.getCannonAngle());
+					shell1 = new Shell(gameAnimationPane, activeTank.getX() + 100, activeTank.getY(), 2,
+							activeTank.getCannonAngle());
 					gameObjects.add(shell1);
 				} else {
 					shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle());
 				}
-		        executor.execute(switchplayer); 
-			
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				switchplayer();
 				
-			
+
 				break;
 			}
 
@@ -117,7 +126,7 @@ public class Game {
 
 			}
 		});
-	}
+	};
 
 	private AnimationTimer animationTimer = new AnimationTimer() {
 
@@ -175,9 +184,9 @@ public class Game {
 		tank1 = new TankPlayer1(gameAnimationPane, 0, 250, 0, 0, 100);
 		tank2 = new TankPlayer2(gameAnimationPane, 550, 250, 0, 0, 100);
 		gameObjects.add(tank1);
-		this.activeTank=tank1;
+		this.activeTank = tank1;
 		gameObjects.add(tank2);
-		this.keyInput();
+		executor.execute(keyInput);
 		this.startAnimation();
 
 	}
@@ -189,7 +198,7 @@ public class Game {
 		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height
 				&& rect1.height + rect1.y > rect2.y) {
 
-			System.out.println("Kolizja" + a.getClass() + "  " +b.getClass() );
+			System.out.println("Kolizja" + a.getClass() + "  " + b.getClass());
 			return true;
 
 		} else {
@@ -201,15 +210,29 @@ public class Game {
 
 		for (int i = 0; i < gameObjects.size(); i++) {
 			for (int a = 0; a < gameObjects.size(); a++) {
-				if(a!=i) {
-				if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
-					if(!(gameObjects.get(a) instanceof Shell))
-						if(!(gameObjects.get(i)instanceof Shell&&gameObjects.get(a).equals(activeTank)))
-						gameObjects.get(i).setCollision(true);
-						
-				
-			}}
+				if (a != i) {
+					if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
+						if (!(gameObjects.get(a) instanceof Shell))
+							if (!(gameObjects.get(i) instanceof Shell && gameObjects.get(a).equals(activeTank)))
+								gameObjects.get(i).setCollision(true);
+
+				}
+			}
 
 		}
 	}
+
+	public void setActiveTank(String tekst) {
+		if (tekst.equals("P1")) {
+
+		} else if (tekst.equals("P2")) {
+		} else {
+			System.out.println("eror");
+		}
+
+	}
+	public void moveActiveTankTo(double x , double y, double arm){
+		activeTank.moveTankTo(x, y, arm);
+	}
+	
 }
