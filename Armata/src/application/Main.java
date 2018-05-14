@@ -34,10 +34,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Game armata = new Game(primaryStage);
-			armata.moveActiveTankTo(50, 10, 10);
-			//Client client = new Client();
-			//client.setGame(armata);
-			//client.play();
+		Client client = new Client();
+		client.setGame(armata);
+		client.play();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

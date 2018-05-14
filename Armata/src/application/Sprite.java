@@ -37,10 +37,8 @@ public class Sprite {
 		this.pane.getChildren().add(imageView);
 		this.imageView.setFitHeight(this.image.getHeight());
 		this.imageView.setFitWidth(this.image.getWidth());
-		System.out.println(this.image.getHeight());
 		this.height=imageView.getFitHeight();
 		this.width=imageView.getFitWidth();
-		System.out.println(this.height);
 	}
 	
 	public double getHeight() {
@@ -102,7 +100,6 @@ public class Sprite {
 		return dx;
 	}
 	public void setDx(double dx) {
-		System.out.println(this.x);
 		if(this.x>-280&&this.x<800)
 		this.dx = dx;
 		else {

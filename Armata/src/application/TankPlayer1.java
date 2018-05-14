@@ -16,7 +16,6 @@ public class TankPlayer1 extends Tank {
 
 		if (cannonAngle <= 45 && cannonAngle >= 0) {
 			this.cannonAngle = this.cannonAngle + cannonSpeed * time;
-			System.out.println(cannonAngle);
 		} else {
 			if ((this.cannonAngle > 0 && cannonSpeed < 0) || (this.cannonAngle < 45 && cannonSpeed > 0)) {
 				this.cannonAngle = this.cannonAngle + cannonSpeed * time;

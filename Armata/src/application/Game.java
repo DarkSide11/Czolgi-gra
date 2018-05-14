@@ -25,8 +25,11 @@ import javafx.stage.Stage;
 
 public class Game {
 	
-	
+
+	public State state;
+	public enum State {Play, Wait};
 	private Tank activeTank;
+	private Tank passiveTank;
 	private Stage stage;
 	private Long startNanoTime;
 	private Scene scene;
@@ -35,30 +38,28 @@ public class Game {
 	private Pane gameAnimationPane;
 	private double groundCoordinatex = 300;
 	private Tank tank1;
-	private String a;
 	private long animationTime = System.currentTimeMillis();
 	private long frameTime = 0;
 	private Tank tank2;
 	private ArrayList<Sprite> gameObjects = new ArrayList<Sprite>();
 	private Shell shell1;
-	Executor executor = Executors.newCachedThreadPool();
-	Executor executor2 = Executors.newCachedThreadPool();
-	public void switchplayer(){
 	
-
+	 
+	 public void switchplayer(){
+		
 		if (activeTank == tank1) {
 			activeTank = tank2;
 		} else {
 			activeTank = tank1;
 		}
-		System.out.println("jebaæ wat");
 
 	};
 
-	Runnable keyInput = () -> {
+	public  void keyInput() {
 		gameAnimationPane.setFocusTraversable(true);
 
 		this.gameAnimationPane.setOnKeyPressed(e -> {
+			if(state!=State.Wait) {
 			switch (e.getCode()) {
 			case LEFT:
 				activeTank.setDx(-1);
@@ -95,18 +96,10 @@ public class Game {
 				} else {
 					shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle());
 				}
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				switchplayer();
-				
-
+				setState(State.Wait);
 				break;
 			}
-
+			}
 		});
 
 		this.gameAnimationPane.setOnKeyReleased(e -> {
@@ -186,7 +179,7 @@ public class Game {
 		gameObjects.add(tank1);
 		this.activeTank = tank1;
 		gameObjects.add(tank2);
-		executor.execute(keyInput);
+		keyInput();
 		this.startAnimation();
 
 	}
@@ -213,7 +206,7 @@ public class Game {
 				if (a != i) {
 					if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
 						if (!(gameObjects.get(a) instanceof Shell))
-							if (!(gameObjects.get(i) instanceof Shell && gameObjects.get(a).equals(activeTank)))
+							if (!gameObjects.get(a).equals(activeTank))
 								gameObjects.get(i).setCollision(true);
 
 				}
@@ -224,8 +217,11 @@ public class Game {
 
 	public void setActiveTank(String tekst) {
 		if (tekst.equals("P1")) {
-
+			activeTank=tank1;
+			passiveTank=tank2;
 		} else if (tekst.equals("P2")) {
+			activeTank=tank2;
+			passiveTank=tank1;
 		} else {
 			System.out.println("eror");
 		}
@@ -235,4 +231,19 @@ public class Game {
 		activeTank.moveTankTo(x, y, arm);
 	}
 	
+	public  State getState() {
+		return state;
+	}
+
+	public synchronized void setState(State state) {
+		this.state = state;
+		notifyAll();
+	}
+
+	public Tank getActiveTank() {
+		return activeTank;
+	}
+	
+	
+
 }
