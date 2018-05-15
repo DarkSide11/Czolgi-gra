@@ -25,7 +25,6 @@ public class Client {
 		socket = new Socket(serverAddress, PORT);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(socket.getOutputStream(), true);
-		System.out.println("Tresc wiadomosci do serwer: \n" + "SHOT " + "45 " + "1");
 	}
 
 	

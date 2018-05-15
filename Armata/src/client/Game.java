@@ -221,6 +221,7 @@ public class Game {
 			activeTank=tank1;
 			passiveTank=tank2;
 		} else if (tekst.equals("P2")) {
+			state=state.Wait;
 			activeTank=tank2;
 			passiveTank=tank1;
 		} else {
@@ -228,17 +229,18 @@ public class Game {
 		}
 
 	}
-	public void moveActiveTankTo(double x , double y, double arm){
-		activeTank.moveTankTo(x, y, arm);
+	public void moveEnemyTankTo(double x , double y, double arm){
+		passiveTank.moveTankTo(x, y, arm);
+		//TODO  narazie rusza siê tylko czo³g zosta³a jeszcze armata
 	}
 	
 	public  State getState() {
 		return state;
 	}
 
-	public synchronized void setState(State state) {
+	public void setState(State state) {
 		this.state = state;
-		notifyAll();
+		
 	}
 
 	public Tank getActiveTank() {
