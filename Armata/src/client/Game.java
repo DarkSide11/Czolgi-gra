@@ -1,4 +1,4 @@
-package application;
+package client;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 
 public class Game {
 	
-
+	public Client client;
 	public State state;
 	public enum State {Play, Wait};
 	private Tank activeTank;
@@ -97,6 +97,7 @@ public class Game {
 					shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle());
 				}
 				setState(State.Wait);
+				client.SendCoordninates();
 				break;
 			}
 			}
@@ -244,6 +245,12 @@ public class Game {
 		return activeTank;
 	}
 	
-	
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
 
 }

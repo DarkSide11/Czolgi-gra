@@ -1,4 +1,4 @@
-package application;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,26 +30,11 @@ public class Client {
 
 	
 
-	Runnable SendCoordninates = () -> {
-		while (true) {
-			while (game.getState() == game.state.Wait) {
-			out.println("SHOT " + "5 " + game.getActiveTank().getCannonAngle());
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	public void SendCoordninates(){
 		
-	};
+			out.println("SHOT " + "5 " + game.getActiveTank().getCannonAngle());	
+	}
+	
 	Runnable GetMessages = () -> {
 		String response;
 		try {
@@ -67,9 +52,9 @@ public class Client {
 				Thread.sleep(200);
 
 				if (response.startsWith("VALID_SHOT")) {
-					game.setState(game.state.Play);
 					System.out.println("validshot"+game.getActiveTank().toString());
 				} else if (response.startsWith("OPPONENT_SHOT")) {
+					game.setState(game.state.Play);
 					int shot = Integer.parseInt(response.substring(14));
 					System.out.println("Przeciwnik wykonal ruch" + shot + ", Twoja kolej"+game.getActiveTank().toString());
 
@@ -109,7 +94,7 @@ public class Client {
 	};
 
 	public void play() throws Exception {
-		executor.execute(SendCoordninates);
+	
 		executor.execute(GetMessages);
 	}
 

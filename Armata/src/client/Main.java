@@ -1,4 +1,4 @@
-package application;
+package client;
 
 import java.awt.GridLayout;
 import java.io.BufferedReader;
@@ -36,6 +36,7 @@ public class Main extends Application {
 			Game armata = new Game(primaryStage);
 		Client client = new Client();
 		client.setGame(armata);
+		armata.setClient(client);
 		client.play();
 		} catch (Exception e) {
 			e.printStackTrace();

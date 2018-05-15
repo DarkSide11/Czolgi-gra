@@ -1,4 +1,4 @@
-package application;
+package client;
 
 import javafx.scene.layout.Pane;
 
