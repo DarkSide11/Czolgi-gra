@@ -44,6 +44,7 @@ public class Game {
 	private ArrayList<Sprite> gameObjects = new ArrayList<Sprite>();
 	private Shell shell1;
 	
+
 	 
 	 public void switchplayer(){
 		
@@ -96,6 +97,9 @@ public class Game {
 				} else {
 					shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle());
 				}
+				
+				
+				
 				setState(State.Wait);
 				client.SendCoordninates();
 				break;
@@ -163,6 +167,9 @@ public class Game {
 		canvas = new Canvas(800, 600);
 		root.getChildren().add(canvas);
 		this.gameAnimationPane = new Pane();
+		
+							
+		
 		root.getChildren().add(gameAnimationPane);
 
 		graphicsContext = canvas.getGraphicsContext2D();
@@ -180,6 +187,10 @@ public class Game {
 		gameObjects.add(tank1);
 		this.activeTank = tank1;
 		gameObjects.add(tank2);
+		
+		shell1 = new Shell(gameAnimationPane, 400,800, false); // Ustawic pocisk tak by byl najmniej widoczny (blisko dolu pola gry)
+		gameObjects.add(shell1);
+		
 		keyInput();
 		this.startAnimation();
 
@@ -254,5 +265,26 @@ public class Game {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+	
+	
+	
+	public ArrayList<Sprite> getGameObjects() {
+	    return gameObjects;
+	  }
+	
+	public Shell getShell() {
+		return shell1;
+	}
+	
+	public void setShell(Shell shell) {
+		this.shell1 = shell;
+	}
 
+	
+	public Pane getGameAnimationPane() {
+		return gameAnimationPane;
+	}
+	
+	
+	
 }

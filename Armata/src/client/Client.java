@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import client.DataProcessing;
+import javafx.application.Platform;
+
 public class Client {
 
 	private static int PORT = 9999; // port na serwerze który nasluchuje, odbiera i wysyla
@@ -20,7 +23,7 @@ public class Client {
 	public Client() throws Exception {
 		// Pod³¹czanie do serwera:
 		// Tworzy port komunikujacy siê z portem serwera o konkretnym adresie IP
-		String serverAddress = "172.23.242.29";
+		String serverAddress = "localhost";
 
 		socket = new Socket(serverAddress, PORT);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -28,12 +31,17 @@ public class Client {
 	}
 
 	
-
+	// WYSYLANE DANE PO WYKONANIU STRZALU:
 	public void SendCoordninates(){
 		
-			out.println("SHOT " + "5 " + game.getActiveTank().getCannonAngle());	
+		// Po wystrzeleniu wysy³a: power, angle, pozycja x, pozycja y
+			
+
+		out.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + game.getActiveTank().y);	
+		
 	}
 	
+	// PRZETWARZANIE OTRZYMYWANYCH WIADOMOSCI:
 	Runnable GetMessages = () -> {
 		String response;
 		try {
@@ -52,11 +60,34 @@ public class Client {
 
 				if (response.startsWith("VALID_SHOT")) {
 					System.out.println("validshot"+game.getActiveTank().toString());
-				} else if (response.startsWith("OPPONENT_SHOT")) {
+				}
+					//WYKONA SIE PO NACISNIECIU SPACJI PRZEZ PRZECIWNIKA
+					else if (response.startsWith("OPPONENT_SHOT")) { 
 					game.setState(game.state.Play);
-					int shot = Integer.parseInt(response.substring(14));
+					String shot = response.substring(14);
 					System.out.println("Przeciwnik wykonal ruch" + shot + ", Twoja kolej"+game.getActiveTank().toString());
+					
+					
+					// Przemieszczenie czo³gu:
+					double xPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(3, shot));
+					double yPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(4, shot));
+					
+					System.out.println(xPosOfEnemy);
+					System.out.println(yPosOfEnemy);
+					
+					game.moveEnemyTankTo(xPosOfEnemy, yPosOfEnemy, 0);
+					
+					
+					
+					// animacja strzalu:
+					
+					double angle = Double.parseDouble(DataProcessing.parseMoveData(2, shot));
+	
+						System.out.println("Pocisk juz jest");
+						game.getShell().shoot(xPosOfEnemy, yPosOfEnemy, angle);
+					
 
+					
 				} else if (response.startsWith("VICTORY")) {
 					System.out.println("Wygrales"+game.getActiveTank().toString());
 					break;

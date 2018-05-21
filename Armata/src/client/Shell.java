@@ -13,6 +13,13 @@ public class Shell extends Sprite {
 		this.dy=-initialSpeed*Math.sin(Math.toRadians(angle));
 		this.dx=initialSpeed*Math.cos(Math.toRadians(angle));
 	}
+	
+	
+	public Shell(Pane pane, double xPos, double yPos, boolean isActive) {
+		super(pane, xPos, yPos, 0, 0, 0, "/icons/Pocisk.png");
+		this.active = isActive;
+		
+	}
 
 	
 	

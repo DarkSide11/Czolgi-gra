@@ -17,8 +17,8 @@ class PlayerServer extends Thread {
 	BufferedReader input;
 	PrintWriter output;
 	
-	int xPos;
-	int yPos;
+	double xPos;
+	double yPos;
 	boolean isDown; // przechowuje informacje czy czolg jest trafiony
 	
 
@@ -34,7 +34,7 @@ class PlayerServer extends Thread {
 	
 
 
-	public PlayerServer(Socket socket, String token, GameServer game, int xPos, int yPos, boolean isDown) {
+	public PlayerServer(Socket socket, String token, GameServer game, double xPos, double yPos, boolean isDown) {
 		this.socket = socket;
 		this.token = token;  
 		this.game = game;
@@ -64,19 +64,19 @@ class PlayerServer extends Thread {
 	
 	
 	// Gettery i settery pozycji czolgu gracza
-	public int getxPos() {
+	public double getxPos() {
 		return xPos;
 	}
 
-	public void setxPos(int xPos) {
+	public void setxPos(double xPos) {
 		this.xPos = xPos;
 	}
 	
-	public int getyPos() {
+	public double getyPos() {
 		return yPos;
 	}
 
-	public void setyPos(int yPos) {
+	public void setyPos(double yPos) {
 		this.yPos = yPos;
 	}
 	
@@ -92,8 +92,10 @@ class PlayerServer extends Thread {
 	// obsluguje wiadomosc o ruchu przeciwnika i ewentualnych konsekwencjach
 	
 		
-		public void opponentPlayerShot(int power, int angle) {
-			output.println("OPPONENT_SHOT " + power + angle); // !!!!!! substring //power 10-99 , angle 1-179 -> pierwsze dwie cyfry to zawsze moc pozostale to kat
+		public void opponentPlayerShot(double power, double angle, double x, double y) {
+			// output.println("OPPONENT_SHOT " + power + angle); // !!!!!! substring //power 10-99 , angle 1-179 -> pierwsze dwie cyfry to zawsze moc pozostale to kat
+			
+			 output.println("OPPONENT_SHOT " + power + ":" + angle + ":" + x + ":" + y);
 			
 			// jesli ruch spowodowal zwyciestwo przeciwnika to gracz przegrywa
 			
@@ -121,14 +123,23 @@ class PlayerServer extends Thread {
 				while(true) {
 					String commandLine = input.readLine();
 					
-					if(commandLine.startsWith("SHOT")) { 
-						int power = Integer.parseInt((String) commandLine.subSequence(5, 6));
-						int angle = Integer.parseInt((String) commandLine.subSequence(7,9));
+					if(commandLine.startsWith("SHOT ")) { 		// 1- power, 2- angle, 3- x , 4- y
 						
+						double power = Double.parseDouble(DataProcessing.parseMoveData(1, commandLine.substring(5)));
+						double angle = Double.parseDouble(DataProcessing.parseMoveData(2, commandLine.substring(5)));
+						double xPos = Double.parseDouble(DataProcessing.parseMoveData(3, commandLine.substring(5)));
+						double yPos = Double.parseDouble(DataProcessing.parseMoveData(4, commandLine.substring(5)));
+						
+						
+						
+//						int power = Integer.parseInt((String) commandLine.subSequence(5, 6));
+//						int angle = Integer.parseInt((String) commandLine.subSequence(7,9));
+//						
 						System.out.println("sila: " + power);
 						System.out.println("kat: " + angle);
+						System.out.println("x: "+ xPos +"    "+ "y: " + yPos);
 						
-						if (game.validShot(power, angle, this)) {
+						if (game.validShot(power, angle, this, xPos, yPos)) {
 							output.println("VALID_SHOT"); 							
 							output.println(game.hasWinner() ? "VICTORY" :  "");
 						} else {

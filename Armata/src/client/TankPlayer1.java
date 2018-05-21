@@ -24,5 +24,12 @@ public class TankPlayer1 extends Tank {
 		}
 
 	}
+	
+	@Override
+	public String toString() {
+//		return "Tank 1" + "   "+this.hashCode();
+		return "Tank 1";
+	}
+	
 
 }

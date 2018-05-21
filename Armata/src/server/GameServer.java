@@ -35,7 +35,7 @@ class GameServer {
 	// synchronized - poniewaz pole currentPlayer moze byc nadpisywane przez kilka roznych watkow
 	// aby uniknac konfliktu uzywa synchronizacji
 	
-	public synchronized boolean validShot (int power, int angle, PlayerServer player) {
+	public synchronized boolean validShot (double power, double angle, PlayerServer player, double x, double y) {
 		if (player == currentPlayer) {
 							
 							// TODO - odpowiednia formula na wspolrzedne koncowe pocisku
@@ -57,7 +57,7 @@ class GameServer {
 			// ta czesc sluzy tylko do przeslania tekstowej informacji o ruchu 
 			// i ewentualnych konsekwencjach - informacja np o przegranej
 			// ta czesc kodu NIE wysyla stanu planszy gry
-			currentPlayer.opponentPlayerShot(power, angle);
+			currentPlayer.opponentPlayerShot(power, angle, x, y);
 			return true;
 		}
 		return false;
