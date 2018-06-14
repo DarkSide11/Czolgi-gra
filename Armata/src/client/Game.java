@@ -43,10 +43,22 @@ public class Game {
 	private Tank tank2;
 	private ArrayList<Sprite> gameObjects = new ArrayList<Sprite>();
 	private Shell shell1;
+	private int myHitPoints = 3;
+	private int myAmmo = 10;
 	
-
+	private Icon[] lives = new Icon[this.myHitPoints];
+	private Icon[] ammo = new Icon[this.myAmmo];
+	
 	 
-	 public void switchplayer(){
+	 public int getMyHitPoints() {
+		return myHitPoints;
+	}
+
+	public void setMyHitPoints(int myHitPoints) {
+		this.myHitPoints = myHitPoints;
+	}
+
+	public void switchplayer(){
 		
 		if (activeTank == tank1) {
 			activeTank = tank2;
@@ -89,19 +101,30 @@ public class Game {
 			case SPACE:
 				activeTank.setCannonSpeed(0);
 				activeTank.setDx(0);
-
+				
+				if(this.myAmmo > -1 ) {
+				
+					if (this.myAmmo > 0) {
+					this.eraseAmmo();
+					}
+					myAmmo--;
+					System.out.println("myAmmo: " + myAmmo);
+				}
+				
 				if (!gameObjects.contains(shell1)) {
 					shell1 = new Shell(gameAnimationPane, activeTank.getX() + 100, activeTank.getY(), 2,
 							activeTank.getCannonAngle());
 					gameObjects.add(shell1);
-				} else {
+				} else if (myAmmo > -1){
 					shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle());
+					client.SendCoordninates();
+				} else {
+					System.out.println("Brak amunicji");
+					client.SendCoordinatesNoAmmo();
 				}
 				
-				
-				
 				setState(State.Wait);
-				client.SendCoordninates();
+				
 				break;
 			}
 			}
@@ -191,10 +214,44 @@ public class Game {
 		shell1 = new Shell(gameAnimationPane, 400,800, false); // Ustawic pocisk tak by byl najmniej widoczny (blisko dolu pola gry)
 		gameObjects.add(shell1);
 		
+		// rysuje "liczbe zyc" oraz "stan amunicji"
+		drawLives();
+		drawAmmo();
+		
+		
+		
 		keyInput();
 		this.startAnimation();
 
 	}
+	
+	public void drawLives() {
+		double space = 60;
+		
+		for (int i = 0; i <this.myHitPoints; i++) {
+			lives[i] = new Icon(gameAnimationPane, 10 + space * i, 520, "/icons/armour4.png");
+			lives[i].render(10 + space * i, 520);
+		}
+	}
+	
+	public void eraseLive() {
+		lives[myHitPoints-1].hide();
+	}
+	
+	public void drawAmmo() {
+		double space = 25;
+		
+		for (int i = 0; i <this.myAmmo; i++) {
+			ammo[i] = new Icon(gameAnimationPane, 250 + space * i, 520, "/icons/tankAmmo4.png");
+			ammo[i].render(250 + space * i, 520);
+		}
+	}
+	
+	public void eraseAmmo() {
+		ammo[myAmmo-1].hide();
+	}
+	
+	
 
 	public boolean isCollisionBettwen(Sprite a, Sprite b) {
 		Rectangle rect1 = new Rectangle((int) a.getX(), (int) a.getY(), (int) a.getWidth(), (int) a.getHeight());
@@ -218,8 +275,14 @@ public class Game {
 				if (a != i) {
 					if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
 						if (!(gameObjects.get(a) instanceof Shell))
-							if (!gameObjects.get(a).equals(activeTank))
-								gameObjects.get(i).setCollision(true);
+							if (!gameObjects.get(a).equals(activeTank)) { //na te chwile activeTank to tak naprawde czolg gracza, passive to przeciwnika
+								
+								gameObjects.get(i).setCollision(true); // ustawia pocisk jako zderzony
+//					
+								if (!gameObjects.get(i).equals(activeTank)) {
+								client.SendLivesState();
+								}
+							}
 
 				}
 			}
@@ -285,6 +348,6 @@ public class Game {
 		return gameAnimationPane;
 	}
 	
-	
+		
 	
 }

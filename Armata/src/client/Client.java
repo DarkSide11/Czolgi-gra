@@ -9,6 +9,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import client.DataProcessing;
+import client.Game.State;
 import javafx.application.Platform;
 
 public class Client {
@@ -35,11 +36,16 @@ public class Client {
 	public void SendCoordninates(){
 		
 		// Po wystrzeleniu wysy³a: power, angle, pozycja x, pozycja y
-			
-
 		out.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + game.getActiveTank().y);	
 		
 	}
+	
+	// do wywolania sytuacji na serwerze jak po oddaniu strzalu, z ta roznica ze strzal animuje siê duzo ponizej pola gry
+	public void SendCoordinatesNoAmmo() {
+		out.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + 10*game.getActiveTank().y);	
+
+	}
+	
 	
 	// PRZETWARZANIE OTRZYMYWANYCH WIADOMOSCI:
 	Runnable GetMessages = () -> {
@@ -49,8 +55,9 @@ public class Client {
 
 			if (response.startsWith("WELCOME")) {
 				String token = response.substring(8);
-				System.out.println(token);
+				System.out.println("Token: " + token);
 				game.setActiveTank(token);
+				
 
 			}
 
@@ -88,16 +95,36 @@ public class Client {
 					
 
 					
-				} else if (response.startsWith("VICTORY")) {
-					System.out.println("Wygrales"+game.getActiveTank().toString());
+				}  else if (response.startsWith("VICTORY")) {
+					String token = response.substring(8);
+					System.out.println("token: " + token);
+					System.out.println("Wygrales " + token);
 					break;
-
+					
+//					
+					
 				} else if (response.startsWith("DEFEAT")) {
-					System.out.println("Przegrales"+game.getActiveTank().toString());
+
+					System.out.println("Przegrales");
 					break;
 
-				} else if (response.startsWith("TIE")) { // do opracowania na serwerze - np koniec amunicji
-					System.out.println("Remis"+game.getActiveTank().toString());
+					
+					
+					
+
+				} else if (response.startsWith("OPPONENT_HIT")) {
+					System.out.println("przeciwnik trafil");
+					int currentHitPoints = game.getMyHitPoints();
+					game.eraseLive();
+					game.setMyHitPoints(--currentHitPoints);
+					System.out.println("pozostalo punktow wytrzymalosci: " + game.getMyHitPoints());
+					
+				}
+				
+				
+				
+				else if (response.startsWith("TIE")) { // do opracowania na serwerze - np koniec amunicji
+					System.out.println("Remis");
 					break;
 
 				} else if (response.startsWith("MESSAGE")) {
@@ -106,6 +133,7 @@ public class Client {
 
 			}
 			out.println("QUIT");
+			game.setState(State.Wait); // po zakonczeniu gry blokuje
 
 			System.out.println("QUIT");
 
@@ -123,6 +151,14 @@ public class Client {
 		}
 	};
 
+	// Wysyla do serwera informacje o trafieniu
+		public void SendLivesState(){
+			
+			out.println("HIT");	
+			
+		}
+	
+	
 	public void play() throws Exception {
 	
 		executor.execute(GetMessages);

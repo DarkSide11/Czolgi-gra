@@ -19,7 +19,13 @@ class PlayerServer extends Thread {
 	
 	double xPos;
 	double yPos;
-	boolean isDown; // przechowuje informacje czy czolg jest trafiony
+	
+	private int hitpoints = 3;
+	
+	private int myAmmo = 10;
+	private int opponentAmmo = myAmmo;
+
+	private boolean isDown; // przechowuje informacje czy czolg jest trafiony
 	
 
 	// konstruuje obiekt gracza, ktory bedzie komunikowal sie przez okreslony port serwera
@@ -81,6 +87,16 @@ class PlayerServer extends Thread {
 	}
 	
 	
+	public int getHitpoints() {
+		return hitpoints;
+	}
+
+
+	public void setHitpoints(int hitpoints) {
+		this.hitpoints = hitpoints;
+	}
+
+	
 
 	// do obiektu jednego z graczy przypisuje obiekt przeciwnika:
 		public void setOpponent(PlayerServer opponent) {
@@ -88,26 +104,21 @@ class PlayerServer extends Thread {
 		
 	}
 	
-	
-	// obsluguje wiadomosc o ruchu przeciwnika i ewentualnych konsekwencjach
-	
+		
+		// metody opponent.... obsluguja wiadomosci o ruchu przeciwnika i ewentualnych konsekwencjach
+		
+		public void opponentPlayerHit() {
+			output.println("OPPONENT_HIT");
+			// jesli uderzenie przeciwnika spowodowalo wygrana to wysyla wiadomosc o przegranej
+			output.println(game.hasWinner() ? "DEFEAT" : "");
+			System.out.println("defeat");
+		}
 		
 		public void opponentPlayerShot(double power, double angle, double x, double y) {
-			// output.println("OPPONENT_SHOT " + power + angle); // !!!!!! substring //power 10-99 , angle 1-179 -> pierwsze dwie cyfry to zawsze moc pozostale to kat
-			
+				opponentAmmo--;
 			 output.println("OPPONENT_SHOT " + power + ":" + angle + ":" + x + ":" + y);
+			}
 			
-			// jesli ruch spowodowal zwyciestwo przeciwnika to gracz przegrywa
-			
-				// TODO dodac warunek remisu - np koniec pociskow lub cos w tym stylu
-			
-			// jesli nie to nic sie nie dzieje
-			
-			output.println(game.hasWinner() ? "DEFEAT" : "");
-		}
-
-
-		
 		@Override
 		public void run() {
 			try {
@@ -131,21 +142,44 @@ class PlayerServer extends Thread {
 						double yPos = Double.parseDouble(DataProcessing.parseMoveData(4, commandLine.substring(5)));
 						
 						
-						
-//						int power = Integer.parseInt((String) commandLine.subSequence(5, 6));
-//						int angle = Integer.parseInt((String) commandLine.subSequence(7,9));
-//						
 						System.out.println("sila: " + power);
 						System.out.println("kat: " + angle);
 						System.out.println("x: "+ xPos +"    "+ "y: " + yPos);
 						
 						if (game.validShot(power, angle, this, xPos, yPos)) {
-							output.println("VALID_SHOT"); 							
-							output.println(game.hasWinner() ? "VICTORY" :  "");
+							
+							myAmmo--;
+							System.out.println("myAmmo: " + myAmmo + "opponentAmmo: " + opponentAmmo);
+							if (myAmmo < 0 && opponentAmmo <= 0) {
+								output.println("TIE");
+							}
+				
+							output.println("VALID_SHOT"); 					
+
 						} else {
 							output.println("MESSAGE Nieznane polecenie");
 						}
-					} else if (commandLine.startsWith("QUIT")) {
+					} else if (commandLine.startsWith("HIT")) {
+						System.out.println("trafienie w przeciwnika: " + opponent.toString());
+						opponent.hitpoints--;
+						System.out.println("punkty wytrzymalosci przeciwnika: " + opponent.hitpoints);
+						
+						if (game.validHit(this)) {
+							output.println("VALID_HIT");
+							System.out.println("valid hit");
+							output.println(game.hasWinner() ? "VICTORY " + token :  "");
+						} else {
+							output.println("MESSAGE Nieznane polecenie");
+						}
+					} 
+					
+//					else if (commandLine.startsWith("DEFEAT")) { // prawdopodobnie mozna juz usunac
+//						
+//						output.println(commandLine);
+//						System.out.println(commandLine);
+//					}
+					
+					else if (commandLine.startsWith("QUIT")) {
 						return;
 					}
 				}

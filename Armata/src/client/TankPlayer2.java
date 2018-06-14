@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 public class TankPlayer2 extends Tank {
 
 	public TankPlayer2(Pane pane, double xPos, double yPos, double xVel, double yVel, double initialHealth) {
-		super(pane, xPos, yPos, xVel, yVel, initialHealth, "/icons/czolg-wrogi.png", "/icons/lufa.png");
+		super(pane, xPos, yPos, xVel, yVel, initialHealth, "/icons/czolg-wrogi4duzy.png", "/icons/lufa.png");
 		this.cannonAngle = 135;
 	}
 

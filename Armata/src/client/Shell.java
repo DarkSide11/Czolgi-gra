@@ -1,5 +1,7 @@
 package client;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class Shell extends Sprite {
@@ -16,7 +18,7 @@ public class Shell extends Sprite {
 	
 	
 	public Shell(Pane pane, double xPos, double yPos, boolean isActive) {
-		super(pane, xPos, yPos, 0, 0, 0, "/icons/Pocisk.png");
+		super(pane, xPos, yPos, 0, 0, 0, "/icons/Pocisk2.png");
 		this.active = isActive;
 		
 	}
@@ -33,12 +35,25 @@ public class Shell extends Sprite {
 			x=-1;
 			y=0;
 			collision=false;
-		}
+		} 
 		this.dy=this.dy+gravity*time;
 		this.x=this.x+this.dx*time;
 		this.y=this.y+this.dy*time;
 		this.render();
-	}}
+		if (this.y > 300) { // 300 groundLevel    > bo os Y jest odwrocona
+			
+//			this.y = this.y+this.dy*time; // zeby nie bylo kolizji z pociskiem ktory juz upadl
+			
+			this.x=0;
+			this.y=0;
+			this.render();
+			active = false;
+			
+		}
+		
+	}
+	}
+	
 	public double getAngle() {
 		return angle;
 	}
@@ -64,14 +79,19 @@ public class Shell extends Sprite {
 		this.initialSpeed = initialSpeed;
 	}
 
+	
+//	
+	
 	public void shoot(double x, double y, double angle) {
 		this.active=true;
 		this.angle=angle;
 		this.dx=initialSpeed*Math.cos(Math.toRadians(angle));
 		this.dy=-initialSpeed*Math.sin(Math.toRadians(angle));
 		this.setAngle(angle);
-		this.setX(x+100);
-		this.setY(y);}
+		
+		double newX = (angle <90) ? x+200 : x;   // wspolrzedna dla Tank1, lub Tank2
+		this.setX(newX);
+		this.setY(y-20);}
 	}
 
 
