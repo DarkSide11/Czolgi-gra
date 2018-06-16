@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import client.DataProcessing;
-import client.Game.State;
+import client.Game.GameState;
 import javafx.application.Platform;
 
 public class Client {
@@ -70,7 +70,7 @@ public class Client {
 				}
 					//WYKONA SIE PO NACISNIECIU SPACJI PRZEZ PRZECIWNIKA
 					else if (response.startsWith("OPPONENT_SHOT")) { 
-					game.setState(game.state.Play);
+					game.setState(game.gameState.Play);
 					String shot = response.substring(14);
 					System.out.println("Przeciwnik wykonal ruch" + shot + ", Twoja kolej"+game.getActiveTank().toString());
 					
@@ -96,6 +96,7 @@ public class Client {
 
 					
 				}  else if (response.startsWith("VICTORY")) {
+					game.setApplicationState(game.applicationState.Victory);
 					String token = response.substring(8);
 					System.out.println("token: " + token);
 					System.out.println("Wygrales " + token);
@@ -104,7 +105,7 @@ public class Client {
 //					
 					
 				} else if (response.startsWith("DEFEAT")) {
-
+					game.setApplicationState(game.applicationState.Defeat);
 					System.out.println("Przegrales");
 					break;
 
@@ -126,14 +127,19 @@ public class Client {
 				else if (response.startsWith("TIE")) { // do opracowania na serwerze - np koniec amunicji
 					System.out.println("Remis");
 					break;
+				}
 
-				} else if (response.startsWith("MESSAGE")) {
+				else if (response.startsWith("MESSAGE Obaj gracze")) {
+				game.setPolaczony(true);
+					System.out.println(response.substring(8)+game.getActiveTank().toString());
+				}
+				else if (response.startsWith("MESSAGE")) {
 					System.out.println(response.substring(8)+game.getActiveTank().toString());
 				}
 
 			}
 			out.println("QUIT");
-			game.setState(State.Wait); // po zakonczeniu gry blokuje
+			game.setState(GameState.Wait); // po zakonczeniu gry blokuje
 
 			System.out.println("QUIT");
 
