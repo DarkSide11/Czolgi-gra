@@ -26,67 +26,147 @@ import javafx.stage.Stage;
 
 public class Game {
 
+	/**
+	 * Referencja do aktualnego clienta gry, pozwala nawysy³anie komunikatów do
+	 * serwera
+	 */
 	public Client client;
+	/**
+	 * Stan gdy, informuje stan Play umo¿liwia wykonywanie ruchów czo³giem, Stan
+	 * Wait blokuje ruch czo³gu - dzieki temu mechanizmowi zrealizowane s¹ tury w
+	 * grze
+	 */
 	public GameState gameState;
+	/**
+	 * Stan aplikacji, informuje czy aplikacja czeka na po³aczenie nowego gracza,
+	 * oraz o wygranej lub przegranej, odpowiada równie¿ za wyœwietlanie ekranu
+	 * startowego
+	 */
 	public ApplicationState applicationState;
 
-	public enum ApplicationState {
-		Playing, StartScreen, Defeat, Victory, Waiting
-	};
-
-	public enum GameState {
-		Play, Wait
-	};
-
+	/**
+	 * Czo³g, którym gracz mo¿e wykonywaæ ruchy- w zale¿noœci od komunikatu z
+	 * serwera wartoœæ ta ustawiana jest na czolg z lewej(tank1) lub z prawej(tank2)
+	 */
 	private Tank activeTank;
+	/**
+	 * Czo³g przeciwnika w zaleznoœci od komunikatu z serwera wartoœæ ta ustawiana
+	 * jest na czolg z lewej(tank1) lub z prawej(tank2) strony
+	 */
 	private Tank passiveTank;
+	/**
+	 * Okno aplikacj w którym rysowane s¹ animacje
+	 */
 	private Stage stage;
+	/**
+	 * Dziêki tej zmiennej obliczany jest czas trwana pojedyñczej klatki,
+	 * uniezale¿nia to ruch czolgów od wydajnosci komputera gracza
+	 */
 	private Long startNanoTime;
+	/**
+	 * Klasa kontenerowa javafx
+	 */
 	private Scene scene;
+	/**
+	 * Klasa "p³ótna" na którym rysowane jest pod³o¿e czogów
+	 */
 	private Canvas canvas;
+	/**
+	 * Klasa wykorzystywana od rysowania w obiekcie klasy Canvas
+	 */
 	private GraphicsContext graphicsContext;
+	/**
+	 * Dziêki tej klasie rysowane s¹ animcje czo³gów
+	 */
 	private Pane gameAnimationPane;
+	/**
+	 * Pozycja pod³o¿a
+	 */
 	private double groundCoordinatex = 300;
+	/**
+	 * Czo³g zaczynaj¹cy gre z lewej strony
+	 */
 	private Tank tank1;
 	private long animationTime = System.currentTimeMillis();
 	private long frameTime = 0;
+	/**
+	 * Czo³g zaczynaj¹cy gre z prawej strony
+	 */
 	private Tank tank2;
+	/**
+	 * Lista obiektów które maj¹ byc renderowane w danej klatce, dzieki tej liscie
+	 * realizowane jest równie¿ wykrywanie kolizji
+	 */
 	private ArrayList<Sprite> gameObjects = new ArrayList<Sprite>();
+	/**
+	 * Obiekt reprezentuj¹cy pociski wystrzeliwane przez graczy. W zwi¹zku z tym, ¿e
+	 * jest to gra turowa w danej chwili na planszy mo¿e znajdowaæ siê tylko jeden
+	 * lec¹cy pocisk
+	 */
 	private Shell shell1;
+	/**
+	 * Zmienna reprezentuj¹ca aktualn¹ liczbê ¿yæ gracza
+	 */
 	private int myHitPoints = 3;
+	/**
+	 * Zmienna reprezentuj¹ca liczbê nabojów, któr¹ dany gracz mo¿e wykorzystaæ
+	 */
 	private int myAmmo = 10;
+	/**
+	 * Obiekt reprezentujacy obraz ekranu tytu³owego
+	 */
 	private Image titleScreen;
+	/**
+	 * Obiekt umo¿liwiajacy rysowanie oraz skalowanie ekranu tytu³owego
+	 */
 	private ImageView titleScreenView;
-	private boolean isGameInitialized;
+	/**
+	 * Obiekt reprezentujacy obraz ekranu czekania
+	 */
 	private Image waitingScreen;
+	/**
+	 * Obiekt umo¿liwiajacy rysowanie oraz skalowanie ekranu tytu³owego
+	 */
 	private ImageView waitingScreenView;
+	/**
+	 * Obiekt reprezentujacy obraz ekranu wyœwietlanego po zwyciêstwie gracza
+	 */
 	private Image victoryScreen;
+	/**
+	 * Obiekt umo¿liwiajacy rysowanie oraz skalowanie wyœwietlanego po zwyciêstwie
+	 * gracza
+	 */
 	private ImageView victoryScreenView;
+	/**
+	 * Obiekt reprezentujacy obraz ekranu wyœwietlanego po przegranej gracza
+	 */
 	private Image defeatScreen;
+	/**
+	 * Obiekt umo¿liwiajacy rysowanie oraz skalowanie wyœwietlanego po przegranej
+	 * gracza
+	 */
 	private ImageView defeatScreenView;
+	/**
+	 * Zmienna informuj¹ca czy do gry zostal pod³¹czony drugi gracz
+	 */
 	private boolean polaczony;
-
+	/**
+	 * Informuje czy zmiene gry zosta³y zainicjalizowane
+	 */
+	private boolean isGameInitialized;
+	/**
+	 * Tablica przechowuwuj¹ca ikony ¿yæ
+	 */
 	private Icon[] lives = new Icon[this.myHitPoints];
+	/**
+	 * Tablica przechowuwuj¹ca ikony amunicji
+	 */
 	private Icon[] ammo = new Icon[this.myAmmo];
 
-	public int getMyHitPoints() {
-		return myHitPoints;
-	}
-
-	public void setMyHitPoints(int myHitPoints) {
-		this.myHitPoints = myHitPoints;
-	}
-
-	public void switchplayer() {
-
-		if (activeTank == tank1) {
-			activeTank = tank2;
-		} else {
-			activeTank = tank1;
-		}
-
-	};
-
+	/**
+	 * Odpowiada ze obsluge wejœcia u¿ytkownika, reaguje w inny sposób w zale¿nosci
+	 * od stanu w jakim znajduje siê gra oraz aplikacja
+	 */
 	public void keyInput() {
 		gameAnimationPane.setFocusTraversable(true);
 
@@ -119,8 +199,7 @@ public class Game {
 						}
 						activeTank.setCannonSpeed(i1);
 						break;
-						
-					
+
 					case SPACE:
 						activeTank.setCannonSpeed(0);
 						activeTank.setDx(0);
@@ -157,10 +236,10 @@ public class Game {
 				switch (e.getCode()) {
 
 				case SPACE:
-				if(polaczony)
-					setApplicationState(ApplicationState.Playing);
-				else
-					setApplicationState(ApplicationState.Waiting);
+					if (polaczony)
+						setApplicationState(ApplicationState.Playing);
+					else
+						setApplicationState(ApplicationState.Waiting);
 					break;
 				}
 
@@ -189,6 +268,10 @@ public class Game {
 		});
 	}
 
+	/**
+	 * Klasa animacji, w metodzie handle realizowane jest aktualizowanie pozycji
+	 * obiektów gry na ekranie.
+	 */
 	private AnimationTimer animationTimer = new AnimationTimer() {
 
 		@Override
@@ -235,7 +318,7 @@ public class Game {
 
 				if (!gameAnimationPane.getChildren().contains(waitingScreenView))
 					gameAnimationPane.getChildren().add(waitingScreenView);
-				if(polaczony)
+				if (polaczony)
 					setApplicationState(ApplicationState.Playing);
 				break;
 
@@ -254,12 +337,19 @@ public class Game {
 		}
 	};
 
+	/**
+	 * Powoduje rozpoczêcie animowania obiektów w grze
+	 */
 	public void startAnimation() {
 		animationTimer.start();
 	}
 
+	/**
+	 * Konstruktor gry, ustawia stany pocz¹tkowe gry oraz inicjalizuje okno
+	 * @param primaryStage - okno aplikacji, w którym ma byæ rysowana gra 
+	 */
 	public Game(Stage primaryStage) {
-		polaczony=false;
+		polaczony = false;
 		stage = primaryStage;
 		stage.setTitle("Game screen");
 		startNanoTime = System.nanoTime();
@@ -274,12 +364,59 @@ public class Game {
 		this.polaczony = czyPolaczony;
 	}
 
+	/**
+	 * Rysuje pod³o¿e, na którym poruszaj¹ sie czo³gi
+	 */
 	public void showTerrain() {
 		Rectangle podloze = new Rectangle(20, 20);
 		GridPane gridPane = new GridPane();
 	}
 
+	/**
+	 * Inicjalizuje obiekty okna gry, wczytuje obrazy ekranów, inicjalizuje obiekty
+	 * czo³gow, rozpoczyna animacje oraz wczytywanie wejœcia gracza
+	 */
 	private void initialize() {
+		initlializeGameWindow();
+
+		loadScreenImages();
+
+		initializeTanks();
+		keyInput();
+		this.startAnimation();
+
+	}
+
+	/**
+	 * Inicjalizuje obiekty czo³gow
+	 */
+	private void initializeTanks() {
+		tank1 = new TankPlayer1(gameAnimationPane, 0, 250, 0, 0, 100);
+		tank2 = new TankPlayer2(gameAnimationPane, 500, 250, 0, 0, 100);
+		this.activeTank = tank1;
+	}
+
+	/**
+	 * Wczytuje obrazy ekranów gry
+	 */
+	private void loadScreenImages() {
+		titleScreen = new Image("icons/StartScreen.png");
+		this.titleScreenView = new ImageView(titleScreen);
+
+		defeatScreen = new Image("icons/DefeatScreen.png");
+		defeatScreenView = new ImageView(defeatScreen);
+
+		victoryScreen = new Image("icons/VictoryScreen.png");
+		victoryScreenView = new ImageView(victoryScreen);
+
+		waitingScreen = new Image("icons/WaitScreen.png");
+		waitingScreenView = new ImageView(waitingScreen);
+	}
+
+	/**
+	 * Inicjalizuej okno gry
+	 */
+	private void initlializeGameWindow() {
 		Group root = new Group();
 		canvas = new Canvas(800, 600);
 		root.getChildren().add(canvas);
@@ -291,27 +428,12 @@ public class Game {
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.sizeToScene();
-
-		titleScreen = new Image("icons/TitleScreen.png");
-		this.titleScreenView = new ImageView(titleScreen);
-
-		defeatScreen = new Image("icons/DefeatScreen.png");
-		defeatScreenView = new ImageView(defeatScreen);
-
-		victoryScreen = new Image("icons/VictoryScreen.png");
-		victoryScreenView = new ImageView(victoryScreen);
-
-		waitingScreen = new Image("icons/WaitingScreen.png");
-		waitingScreenView = new ImageView(waitingScreen);
-
-		tank1 = new TankPlayer1(gameAnimationPane, 0, 250, 0, 0, 100);
-		tank2 = new TankPlayer2(gameAnimationPane, 500, 250, 0, 0, 100);
-		this.activeTank = tank1;
-		keyInput();
-		this.startAnimation();
-
 	}
 
+	/**
+	 * Dodaje pocisk oraz czo³gi do tablicy gameObjects, skutkuje to powjawieniem
+	 * sie tych obiektów w animacji. Rysuje aktualn¹ liczbê pocisków oraz ¿yæ gracza
+	 */
 	private void gameInit() {
 
 		graphicsContext.setFill(Color.GREEN);
@@ -327,6 +449,9 @@ public class Game {
 		isGameInitialized = true;
 	}
 
+	/**
+	 * Rysuje aktualn¹ liczbê pocisków oraz ¿yæ gracza
+	 */
 	public void drawLives() {
 		double space = 60;
 
@@ -336,10 +461,16 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Zmniejsza liczbê punktów ¿ycia gracza
+	 */
 	public void eraseLive() {
 		lives[myHitPoints - 1].hide();
 	}
 
+	/**
+	 * Rysuje aktualn¹ liczbê amunicji
+	 */
 	public void drawAmmo() {
 		double space = 25;
 
@@ -349,10 +480,20 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Zmniejsza liczbê amunicji gracza
+	 */
 	public void eraseAmmo() {
 		ammo[myAmmo - 1].hide();
 	}
 
+	/**
+	 * Wykrywa kolizje pomiedzy argumentami
+	 * @param  a -Obiekt typu Sprite 
+	 * @param b -Obiekt typu Sprite 
+	 * @return true- wystêpuje kolizja pomiedzy obiektami 
+	 * 		false- brak kolizji 
+	 */
 	public boolean isCollisionBettwen(Sprite a, Sprite b) {
 		Rectangle rect1 = new Rectangle((int) a.getX(), (int) a.getY(), (int) a.getWidth(), (int) a.getHeight());
 		Rectangle rect2 = new Rectangle((int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight());
@@ -368,6 +509,10 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Obsluguje kolizje, w zale¿noœci od typu obiektów, które koliduja ze sobi¹,
+	 * powoduje przesuniêcie czo³gu lub zaliczenie trafienia
+	 */
 	public void handleCollisions() {
 
 		for (int i = 0; i < gameObjects.size(); i++) {
@@ -391,6 +536,12 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Ustawia aktywny czo³g 
+	 * @param tekst
+	 *            "P1" ustawia aktywny czo³g na ten z lewej
+	 * 				"P2" ustaiwa aktywny czo³g na ten z prawej strony
+	 */
 	public void setActiveTank(String tekst) {
 		if (tekst.equals("P1")) {
 			activeTank = tank1;
@@ -405,20 +556,35 @@ public class Game {
 
 	}
 
+	/**
+	 * Odpowiada za animacje czo³gu przeciwnika po tym jak wykona on swój ruch
+	 * 
+	 * @param x
+	 *            pozucja x czolgu
+	 * @param y
+	 *            pozycaja y czo³gu 
+	 * @param arm
+	 *            k¹t podniesienia armaty 
+	 */
 	public void moveEnemyTankTo(double x, double y, double arm) {
 		int i1;
-		if (activeTank == tank1) {	
+		if (activeTank == tank1) {
 		} else {
 		}
-		
+
 		passiveTank.moveTankTo(x, y, arm);
-		// TODO narazie rusza siê tylko czo³g zosta³a jeszcze armata
+
 	}
 
+	/**
+	 * @return aktualny stan  gry
+	 */
 	public GameState getState() {
 		return gameState;
 	}
-
+	/**
+	 * @param state Rzadany stan gry 
+	 */
 	public void setState(GameState state) {
 		this.gameState = state;
 
@@ -458,6 +624,22 @@ public class Game {
 
 	public void setApplicationState(ApplicationState applicationState) {
 		this.applicationState = applicationState;
+	}
+
+	public enum ApplicationState {
+		Playing, StartScreen, Defeat, Victory, Waiting
+	};
+
+	public enum GameState {
+		Play, Wait
+	};
+
+	public int getMyHitPoints() {
+		return myHitPoints;
+	}
+
+	public void setMyHitPoints(int myHitPoints) {
+		this.myHitPoints = myHitPoints;
 	}
 
 }
