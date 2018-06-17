@@ -72,8 +72,15 @@ class GameServer {
 			
 			currentPlayer.opponentPlayerIsReady();
 			return true;
-		}
+		} 
+		
 		return false;
+	}
+	
+	
+	public synchronized void validConfirmationIfFirstFromP2() {
+		currentPlayer.opponentPlayerIsReady();
+		currentPlayer = currentPlayer.opponent;
 	}
 	
 	

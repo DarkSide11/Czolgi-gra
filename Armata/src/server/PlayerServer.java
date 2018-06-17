@@ -125,6 +125,7 @@ class PlayerServer extends Thread {
 		}
 		
 		
+		
 			
 		@Override
 		public void run() {
@@ -181,16 +182,13 @@ class PlayerServer extends Thread {
 					} 
 					
 					else if (commandLine.startsWith("I_AM_READY")) {
-						if (game.validConfirmation(this)) {
+						if (game.validConfirmation(this)) { //true jesli P1:
 							
-						} else {
-							output.println("MESSAGE Nieznane polecenie");
-						}
-						
-						
+						} else { // jesli P2:
+							game.validConfirmationIfFirstFromP2();
+							System.out.println("P2 (nieaktywny gracz) potwierdzil gotowosc jako pierwszy");
+						}	
 					}
-					
-
 					
 					else if (commandLine.startsWith("QUIT")) {
 						return;
