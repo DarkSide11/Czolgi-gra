@@ -78,11 +78,11 @@ public class Client {
 					// Przemieszczenie czo³gu:
 					double xPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(3, shot));
 					double yPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(4, shot));
-					
+					double cannonAngle = Double.parseDouble(DataProcessing.parseMoveData(2, shot));
 					System.out.println(xPosOfEnemy);
 					System.out.println(yPosOfEnemy);
-					
-					game.moveEnemyTankTo(xPosOfEnemy, yPosOfEnemy, 0);
+					System.out.println(cannonAngle);
+					game.moveEnemyTankTo(xPosOfEnemy, yPosOfEnemy, cannonAngle);
 					
 					
 					

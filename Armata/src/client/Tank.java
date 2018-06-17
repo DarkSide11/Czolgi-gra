@@ -7,8 +7,10 @@ import javafx.scene.layout.Pane;
 public abstract class Tank extends Sprite {
 
 	private boolean tankMovedtoDestX = true;
+	private boolean tankMovedCannonAngle = true;
 	private double destinationXcoornidate;
 	private double destinationYcoordniate;
+	double destinationCannonAngle;
 	Image cannon;
 	ImageView cannonView;
 	double cannonAngle;
@@ -49,16 +51,35 @@ public abstract class Tank extends Sprite {
 				if (destinationXcoornidate - x > 0) {
 					dx = 1;
 					if (x - destinationXcoornidate < 10 && x - destinationXcoornidate > -10) {
-						dx=0;tankMovedtoDestX=true;}
+						dx = 0;
+						tankMovedtoDestX = true;
 					}
-				else {
-					dx = -1;}
+				} else {
+					dx = -1;
+				}
 				if (x - destinationXcoornidate < 10 && x - destinationXcoornidate > -10) {
-					dx = 0;tankMovedtoDestX=true;}
-				
+					dx = 0;
+					tankMovedtoDestX = true;
+				}
+
+				if (!tankMovedCannonAngle) {
+					if (destinationCannonAngle - cannonAngle > 0) {
+						cannonSpeed = 1 ;
+						if (cannonAngle - destinationCannonAngle < 5 && cannonAngle - destinationCannonAngle > -5) {
+							cannonSpeed = 0;
+							tankMovedCannonAngle = true;
+						}
+					} else {
+						cannonSpeed = -1;
+					}
+					if (cannonAngle - destinationCannonAngle < 5 && cannonAngle - destinationCannonAngle > -5) {
+						cannonSpeed = 0;
+						tankMovedCannonAngle = true;
+					}
+
+				}
 			}
 		}
-
 	}
 
 	public double getCannonSpeed() {
@@ -78,9 +99,10 @@ public abstract class Tank extends Sprite {
 	}
 
 	public void moveTankTo(double x, double y, double katArmaty) {
-		destinationXcoornidate=x;
-		destinationYcoordniate=y;
+		destinationXcoornidate = x;
+		destinationYcoordniate = y;
+		destinationCannonAngle=katArmaty;
 		this.tankMovedtoDestX = false;
-
+		this.tankMovedCannonAngle = false;
 	}
 }

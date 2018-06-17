@@ -119,6 +119,8 @@ public class Game {
 						}
 						activeTank.setCannonSpeed(i1);
 						break;
+						
+					
 					case SPACE:
 						activeTank.setCannonSpeed(0);
 						activeTank.setDx(0);
@@ -404,6 +406,11 @@ public class Game {
 	}
 
 	public void moveEnemyTankTo(double x, double y, double arm) {
+		int i1;
+		if (activeTank == tank1) {	
+		} else {
+		}
+		
 		passiveTank.moveTankTo(x, y, arm);
 		// TODO narazie rusza siê tylko czo³g zosta³a jeszcze armata
 	}
