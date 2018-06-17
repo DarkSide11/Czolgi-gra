@@ -5,26 +5,7 @@ import java.awt.Point;
 class GameServer {
 	// "Plansza gry"
 	
-	
-//	private boolean noAmmoInTank1;
-//	private boolean noAmmoInTank2;
-//	
-//	
-//	public boolean isNoAmmoInTank1() {
-//		return noAmmoInTank1;
-//	}
-//
-//	public void setNoAmmoInTank1(boolean noAmmoInTank1) {
-//		this.noAmmoInTank1 = noAmmoInTank1;
-//	}
-//
-//	public boolean isNoAmmoInTank2() {
-//		return noAmmoInTank2;
-//	}
-//
-//	public void setNoAmmoInTank2(boolean noAmmoInTank2) {
-//		this.noAmmoInTank2 = noAmmoInTank2;
-//	}
+
 	
 
 	// pozycja pocisku w momencie kontaktu - np na wysokosci y przeciwnika
@@ -38,18 +19,14 @@ class GameServer {
 	public boolean hasWinner() {
 					// zwraca wynik warunku logicznego:
 			return
-//					  (currentPlayer.isDown == true)
-//			          ||(currentPlayer.opponent.isDown == true);
+
 					(currentPlayer.getHitpoints() <= 0)
 			          ||(currentPlayer.opponent.getHitpoints() <= 0);
 				
 	}
 	
 	
-//	public boolean hasDraw() {
-//		return (noAmmoInTank1 && noAmmoInTank2);
-//	}
-	
+
 	
 	
 	
@@ -65,7 +42,7 @@ class GameServer {
 	
 	public synchronized boolean validShot (double power, double angle, PlayerServer player, double x, double y) {
 		if (player == currentPlayer) {
-//									
+									
 			// ustawienie na serwerze 'currentPlayer' jako drugiego z graczy
 			currentPlayer = currentPlayer.opponent;
 			
@@ -86,6 +63,19 @@ class GameServer {
 		}
 		return false;
 	}
+	
+	
+	public synchronized boolean validConfirmation (PlayerServer player) {
+		if (player == currentPlayer) {
+		// ustawienie na serwerze 'currentPlayer' jako drugiego z graczy
+			currentPlayer = currentPlayer.opponent;
+			
+			currentPlayer.opponentPlayerIsReady();
+			return true;
+		}
+		return false;
+	}
+	
 	
 	
 }

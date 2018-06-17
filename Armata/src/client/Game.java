@@ -163,6 +163,27 @@ public class Game {
 	 */
 	private Icon[] ammo = new Icon[this.myAmmo];
 
+	
+	private boolean notifiedOpponent;
+	
+	public boolean isNotifiedOpponent() {
+		return notifiedOpponent;
+	}
+
+	public void setNotifiedOpponent(boolean notifiedOpponent) {
+		this.notifiedOpponent = notifiedOpponent;
+	}
+	
+	private boolean opponentIsReady;
+
+	public boolean isOpponentIsReady() {
+		return opponentIsReady;
+	}
+
+	public void setOpponentIsReady(boolean opponentIsReady) {
+		this.opponentIsReady = opponentIsReady;
+	}
+
 	/**
 	 * Odpowiada ze obsluge wejœcia u¿ytkownika, reaguje w inny sposób w zale¿nosci
 	 * od stanu w jakim znajduje siê gra oraz aplikacja
@@ -278,6 +299,12 @@ public class Game {
 		public void handle(long arg0) {
 			switch (applicationState) {
 			case Playing:
+				
+				if(!notifiedOpponent) {
+				client.iAmReady();
+				}
+				
+				if (opponentIsReady) {
 				clearScreen();
 
 				if (!isGameInitialized)
@@ -291,7 +318,9 @@ public class Game {
 					x.update(frameTime / 5);
 				}
 				handleCollisions();
-
+				} else setApplicationState(ApplicationState.Waiting);
+				
+				
 				break;
 			case StartScreen:
 				if (!gameAnimationPane.getChildren().contains(titleScreenView))

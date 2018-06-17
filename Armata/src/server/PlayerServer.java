@@ -118,6 +118,13 @@ class PlayerServer extends Thread {
 				opponentAmmo--;
 			 output.println("OPPONENT_SHOT " + power + ":" + angle + ":" + x + ":" + y);
 			}
+		
+		
+		public void opponentPlayerIsReady() {
+			 output.println("OPPONENT_IS_READY");
+		}
+		
+		
 			
 		@Override
 		public void run() {
@@ -173,11 +180,17 @@ class PlayerServer extends Thread {
 						}
 					} 
 					
-//					else if (commandLine.startsWith("DEFEAT")) { // prawdopodobnie mozna juz usunac
-//						
-//						output.println(commandLine);
-//						System.out.println(commandLine);
-//					}
+					else if (commandLine.startsWith("I_AM_READY")) {
+						if (game.validConfirmation(this)) {
+							
+						} else {
+							output.println("MESSAGE Nieznane polecenie");
+						}
+						
+						
+					}
+					
+
 					
 					else if (commandLine.startsWith("QUIT")) {
 						return;

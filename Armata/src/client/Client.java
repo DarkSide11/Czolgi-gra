@@ -128,6 +128,12 @@ public class Client {
 					System.out.println("Remis");
 					break;
 				}
+				
+				else if (response.startsWith("OPPONENT_IS_READY")) { 
+					System.out.println("Opponent is ready");
+					game.setOpponentIsReady(true);
+					
+				}
 
 				else if (response.startsWith("MESSAGE Obaj gracze")) {
 				game.setPolaczony(true);
@@ -162,6 +168,12 @@ public class Client {
 			
 			out.println("HIT");	
 			
+		}
+		
+		
+		public void iAmReady() {
+			game.setNotifiedOpponent(true);
+			out.println("I_AM_READY");
 		}
 	
 	

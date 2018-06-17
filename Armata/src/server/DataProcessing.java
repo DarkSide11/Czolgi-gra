@@ -13,23 +13,4 @@ public class DataProcessing {
 	
 	
 }
-//
-//enum Parameters {
-//
-//	POWER(1), 
-//	ANGLE(2),
-//	X_POS(3),
-//	Y_POS(4);
-//	
-//	private final int value;
-//    
-//	Parameters(int value) { 
-//		this.value = value; 
-//		}
-//    
-//	public int getValue() {
-//		return value; 
-//		}
-//	
-//	
-//}
+
