@@ -15,8 +15,8 @@ public static void main(String[] args) throws Exception {
 				GameServer game = new GameServer();
 						
 			// Po³¹czenie 2 graczy do serwera - wiaze pare graczy z obiektem gry - game
-			PlayerServer playerP1 = new PlayerServer(listener.accept(), "P1", game, 10, 10, false);						
-			PlayerServer playerP2 = new PlayerServer(listener.accept(), "P2", game, 310, 10, false);
+			PlayerServer playerP1 = new PlayerServer(listener.accept(), "P1", game, 10, 10, 3);						
+			PlayerServer playerP2 = new PlayerServer(listener.accept(), "P2", game, 310, 10, 3);
 			
 			// parowanie podlaczonych klientow jako przeciwnikow:
 			playerP1.setOpponent(playerP2);
