@@ -28,7 +28,9 @@ public class Main extends Application {
 		armata.setClient(client);
 		client.play();
 		} catch (Exception e) {
+			System.out.println("Blad inicjalizacji aplikacji: ");
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 

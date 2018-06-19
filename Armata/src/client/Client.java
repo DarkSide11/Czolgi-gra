@@ -150,15 +150,20 @@ public class Client {
 			System.out.println("QUIT");
 
 		} catch (IOException e) {
+			System.out.println("Blad IO wewnatrz GetMssages: ");
 			e.printStackTrace();
+			System.exit(1);
 		} catch (InterruptedException e) {
+			System.out.println("Blad IO wewnatrz GetMssages: ");
 			e.printStackTrace();
+			System.exit(1);
 		} finally {
 			try {
 				socket.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Blad zamykania socketu: ");
 				e.printStackTrace();
+				System.exit(1);
 			}
 		}
 	};

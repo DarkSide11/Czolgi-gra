@@ -8,24 +8,24 @@ import java.net.Socket;
 
 
 
-class PlayerServer extends Thread {
-	GameServer game;
-	String token; // czyli jakby "pionek" P1 lub P2
-	PlayerServer opponent;
+	class PlayerServer extends Thread {
+	private GameServer game;
+	private String token; // czyli jakby "pionek" P1 lub P2
+	private PlayerServer opponent;
 	
-	Socket socket;
-	BufferedReader input;
-	PrintWriter output;
+	private Socket socket;
+	private BufferedReader input;
+	private PrintWriter output;
 	
-	double xPos;
-	double yPos;
+	private double xPos;
+	private double yPos;
 	
 	private int hitpoints = 3;
 	
 	private int myAmmo = 10;
 	private int opponentAmmo = myAmmo;
 
-	private boolean isDown; // przechowuje informacje czy czolg jest trafiony
+	
 	
 
 	// konstruuje obiekt gracza, ktory bedzie komunikowal sie przez okreslony port serwera
@@ -40,13 +40,13 @@ class PlayerServer extends Thread {
 	
 
 
-	public PlayerServer(Socket socket, String token, GameServer game, double xPos, double yPos, boolean isDown) {
+	public PlayerServer(Socket socket, String token, GameServer game, double xPos, double yPos, int hitpoints) {
 		this.socket = socket;
 		this.token = token;  
 		this.game = game;
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.isDown = false; 
+		this.hitpoints = 3;
 		
 		try {
 			input = new BufferedReader(new InputStreamReader (socket.getInputStream()));
@@ -64,6 +64,7 @@ class PlayerServer extends Thread {
 			
 		} catch (IOException e) {
 			System.out.println("Gracz rozlaczony, blad: " + e);
+			System.exit(1);
 		}
 		
 }
@@ -103,6 +104,12 @@ class PlayerServer extends Thread {
 		this.opponent = opponent;
 		
 	}
+		
+		public PlayerServer getOpponent() {
+			return opponent;
+		}
+		
+		
 	
 		
 		// metody opponent.... obsluguja wiadomosci o ruchu przeciwnika i ewentualnych konsekwencjach
@@ -198,12 +205,14 @@ class PlayerServer extends Thread {
 				
 			} catch (IOException e ) {
 				System.out.println("Polaczenie przerwane " + e);
+				System.exit(1);
 			} finally {
 				try {
 					socket.close();
 					
 				} catch (IOException e) {
-					System.out.println(e);
+					System.out.println("Blad zamykania socketu: " + e);
+					System.exit(1);
 				}
 			}
 			

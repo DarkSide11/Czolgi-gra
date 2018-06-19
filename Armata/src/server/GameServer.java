@@ -2,7 +2,7 @@ package server;
 
 import java.awt.Point;
 
-class GameServer {
+ class GameServer {
 	// "Plansza gry"
 	
 
@@ -21,7 +21,7 @@ class GameServer {
 			return
 
 					(currentPlayer.getHitpoints() <= 0)
-			          ||(currentPlayer.opponent.getHitpoints() <= 0);
+			          ||(currentPlayer.getOpponent().getHitpoints() <= 0);
 				
 	}
 	
@@ -44,7 +44,7 @@ class GameServer {
 		if (player == currentPlayer) {
 									
 			// ustawienie na serwerze 'currentPlayer' jako drugiego z graczy
-			currentPlayer = currentPlayer.opponent;
+			currentPlayer = currentPlayer.getOpponent();
 			
 			// drugi z graczy (ktory w tym momencie juz jest currentPlayer) zostaje powiadomiony
 			// o ruchu (strzale) swojego przeciwnika 
@@ -57,7 +57,7 @@ class GameServer {
 	
 	
 	public synchronized boolean validHit(PlayerServer player) { 
-		if (player == currentPlayer.opponent) {
+		if (player == currentPlayer.getOpponent()) {
 			currentPlayer.opponentPlayerHit();
 			return true;
 		}
@@ -68,7 +68,7 @@ class GameServer {
 	public synchronized boolean validConfirmation (PlayerServer player) {
 		if (player == currentPlayer) {
 		// ustawienie na serwerze 'currentPlayer' jako drugiego z graczy
-			currentPlayer = currentPlayer.opponent;
+			currentPlayer = currentPlayer.getOpponent();
 			
 			currentPlayer.opponentPlayerIsReady();
 			return true;
@@ -80,7 +80,7 @@ class GameServer {
 	
 	public synchronized void validConfirmationIfFirstFromP2() {
 		currentPlayer.opponentPlayerIsReady();
-		currentPlayer = currentPlayer.opponent;
+		currentPlayer = currentPlayer.getOpponent();
 	}
 	
 	
