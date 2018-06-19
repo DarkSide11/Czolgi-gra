@@ -29,7 +29,7 @@ public class Icon  {
 }
 	
 	public void render(double x, double y) {		
-		imageView.relocate(x, y);	
+		imageView.relocate(x, y); 
 	}
 	
 	public void hide( ) {
