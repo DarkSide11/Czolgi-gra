@@ -4,6 +4,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+/**
+ * Klasa odpowiedzialna za rysowanie ikon punkto wytrzymalosci, amunicji i tp elementow.
+ * @author Robert
+ *
+ */
 public class Icon  {
 
 	private Image image;
@@ -30,10 +35,18 @@ public class Icon  {
 		this.width=imageView.getFitWidth();		
 }
 	
+	/**
+	 * ustawia pozycje elementu
+	 * @param x
+	 * @param y
+	 */
 	public void render(double x, double y) {		
 		imageView.relocate(x, y);	
 	}
 	
+	/**
+	 * ukrywa element (ikonê)
+	 */
 	public void hide( ) {
 		imageView.setVisible(false);
 	}

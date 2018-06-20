@@ -2,7 +2,7 @@ package server;
 /**
  * Klasa zawierajaca metody przetwarzajace otrzymywany przez serwer strumien wejsciowy.
  */
-public class DataProcessing {
+public class DataProcessor {
 
 	/**
 	 * Metoda wy³uskuj¹ca przekazywane przez klienta argumenty.
@@ -15,11 +15,10 @@ public class DataProcessing {
 	 * @param input - wejsciowy ³añcuch znaków
 	 * @return - zwracany parametr.
 	 */
-	public static  synchronized String parseMoveData (int numberOfParameter, String input) {
+	
+	public String parseMoveData (int numberOfParameter, String input) {
 		String[] parameters = input.split(":"); 
 		return parameters[numberOfParameter-1];
 	}
-	
-	
 }
 

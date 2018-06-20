@@ -29,6 +29,7 @@ import java.net.Socket;
 	
 	private int myAmmo = 10;
 	private int opponentAmmo = myAmmo;
+	private DataProcessor dataProcessor;
 
 	
 /**
@@ -51,6 +52,7 @@ import java.net.Socket;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.hitpoints = 3;
+		dataProcessor = new DataProcessor();
 		
 		try {
 			input = new BufferedReader(new InputStreamReader (socket.getInputStream()));
@@ -172,10 +174,10 @@ import java.net.Socket;
 					
 					if(commandLine.startsWith("SHOT ")) { 		// 1- power, 2- angle, 3- x , 4- y
 						
-						double power = Double.parseDouble(DataProcessing.parseMoveData(1, commandLine.substring(5)));
-						double angle = Double.parseDouble(DataProcessing.parseMoveData(2, commandLine.substring(5)));
-						double xPos = Double.parseDouble(DataProcessing.parseMoveData(3, commandLine.substring(5)));
-						double yPos = Double.parseDouble(DataProcessing.parseMoveData(4, commandLine.substring(5)));
+						double power = Double.parseDouble(dataProcessor.parseMoveData(1, commandLine.substring(5)));
+						double angle = Double.parseDouble(dataProcessor.parseMoveData(2, commandLine.substring(5)));
+						double xPos = Double.parseDouble(dataProcessor.parseMoveData(3, commandLine.substring(5)));
+						double yPos = Double.parseDouble(dataProcessor.parseMoveData(4, commandLine.substring(5)));
 						
 						
 						System.out.println("sila: " + power);
@@ -227,7 +229,16 @@ import java.net.Socket;
 			} catch (IOException e ) {
 				System.out.println("Polaczenie przerwane " + e);
 //				System.exit(1);
-			} finally {
+			} catch ( NullPointerException e ) {
+				  System.out.println("null");
+				  e.printStackTrace();
+				  System.exit(1);
+			} catch ( Exception e ) {
+				  System.out.println("Nieoczekiwany blad");
+				  e.printStackTrace();
+				  System.exit(1);
+			}
+			finally {
 				try {
 					socket.close();
 					

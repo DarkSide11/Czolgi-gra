@@ -11,7 +11,11 @@ import java.util.concurrent.Executors;
 import client.DataProcessing;
 import client.Game.GameState;
 import javafx.application.Platform;
-
+/**
+ * Klasa komunikacji aplikacji klienckiej z czeœci¹ serwerow¹
+ * @author Robert
+ *
+ */
 public class Client {
 
 	private static int PORT = 9999; // port na serwerze który nasluchuje, odbiera i wysyla
