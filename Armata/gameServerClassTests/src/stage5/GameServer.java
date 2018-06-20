@@ -1,11 +1,15 @@
-package server;
+package stage5;
 
+import java.awt.Point;
 
 /**
  * Klasa, której obiekty pe³ni¹ funkcjê planszy gry.
  */
  class GameServer {
-
+	
+	// pozycja pocisku w momencie kontaktu - np na wysokosci y przeciwnika, sprawdziczy czy nie przestarzale
+//	private Point shellContactPosition = new Point(); 
+	
 	// gracz ktory moze wykonac ruch:
 	private PlayerServer currentPlayer;
 		

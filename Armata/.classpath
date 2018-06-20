@@ -2,11 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="content"/>
-	<classpathentry kind="src" path="easyMock"/>
-	<classpathentry kind="src" path="gameServerClassTests"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="easyMock/easymock-3.6-javadoc.jar"/>
 	<classpathentry kind="lib" path="easyMock/easymock-3.6-samples.jar"/>
 	<classpathentry kind="lib" path="easyMock/easymock-3.6-sources.jar"/>

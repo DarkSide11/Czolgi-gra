@@ -1,4 +1,4 @@
-package src.stage4;
+package stage4;
 
 import java.awt.Point;
 

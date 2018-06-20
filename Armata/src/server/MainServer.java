@@ -2,9 +2,24 @@ package server;
 
 import java.net.ServerSocket;
 
-
+/** 
+ * <h1> Czêœæ serwerowa gry </h1>
+ * Tworzy serwer gry do którego mog¹ pod³¹czaæ siê aplikacje klienckie.
+ * @author Robert Adamczuk 
+ * */
 public class MainServer {
-	
+	/**
+	 * Metoda main() czesci serwerowej. 
+	 * Tworzy gniazdo serwerowe. Nastêpnie w petli tworzy jeden obiekt gry, oraz dwa obiekty graczy.
+	 * Obiekty graczy tworzone s¹ w odpowiedzi na nawi¹zanie po³¹czenia aplikacji klienckiej z socketem serwerowym (listener.accept())
+	 * Dwa utworzone obiekty graczy ³¹czone s¹ w parê - poprzez wzajemne ustawienie siebie jako przeciwników
+	 * Jako pierwszy grê zacznie ten z graczy który po³¹czy³ siê wczeœniej.
+	 * Obiekty graczy dziedzicz¹ z Thread - nastêpuje ich uruchomienie i gra rozpoczyna siê.
+	 * Klauzula finally zawiera metodê close() - zamyka socket w przypadku wyst¹pienia b³êdu, odblokowuj¹c port na potrzeby uruchomienia kolejnej instancji programu.
+	 * @param args Unused
+	 * @return Nothing
+	 * @throws Exception Wyst¹pienie b³êdu zamyka program.
+	 */
 public static void main(String[] args) throws Exception {
 		
 		ServerSocket listener = new ServerSocket(9999);
@@ -13,28 +28,19 @@ public static void main(String[] args) throws Exception {
 		try {
 			while(true) {
 				GameServer game = new GameServer();
-						
-			// Po³¹czenie 2 graczy do serwera - wiaze pare graczy z obiektem gry - game
 			PlayerServer playerP1 = new PlayerServer(listener.accept(), "P1", game, 10, 10, 3);						
 			PlayerServer playerP2 = new PlayerServer(listener.accept(), "P2", game, 310, 10, 3);
 			
-			// parowanie podlaczonych klientow jako przeciwnikow:
 			playerP1.setOpponent(playerP2);
 			playerP2.setOpponent(playerP1);
 			
-			// jako pierwszy rozpocznie gracz P1 - podlaczony jako pierwszy
-			game.currentPlayer = playerP1;
+			game.setCurrentPlayer(playerP1);
 			
-			// obiekty graczy rozszerzaja watki -> .start()
 			playerP1.start();
 			playerP2.start();
 		} 
 	} finally {
-		// zamkniecie zasobu - inaczej w przypadku awarii nie da sie ponownie na tym samym porcie
-		// uruchomic kolejnej instancji
 		listener.close();
 		}
 	}
 }
-
-
