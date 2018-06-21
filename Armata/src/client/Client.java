@@ -31,7 +31,7 @@ public class Client {
 	 */
 	public Client() throws Exception {
 		// Pod³¹czanie do serwera:
-		// Tworzy port komunikujacy siê z portem serwera o konkretnym adresie IP
+		// Tworzy port komunikujacy siê z Server Socketem serwera
 		String serverAddress = "localhost";
 
 		socket = new Socket(serverAddress, PORT);
