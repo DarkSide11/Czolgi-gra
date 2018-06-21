@@ -321,7 +321,7 @@ public class Game {
 				animationTime = System.currentTimeMillis();
 
 				for (Sprite x : gameObjects) {
-					x.update(frameTime );
+					x.update(frameTime/5);
 				}
 				handleCollisions();
 				} else setApplicationState(ApplicationState.Waiting);

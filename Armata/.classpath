@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="easyMock/easymock-3.6.jar"/>
 	<classpathentry kind="lib" path="easyMock/original-easymock-3.6-sources.jar"/>
 	<classpathentry kind="lib" path="easyMock/original-easymock-3.6.jar"/>
+	<classpathentry kind="lib" path="ini4j-0.5.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

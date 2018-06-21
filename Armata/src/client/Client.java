@@ -1,12 +1,15 @@
 package client;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import org.ini4j.Ini;
 
 import client.DataProcessing;
 import client.Game.GameState;
@@ -33,12 +36,39 @@ public class Client {
 		// Pod³¹czanie do serwera:
 		// Tworzy port komunikujacy siê z portem serwera o konkretnym adresie IP
 		String serverAddress = "localhost";
-
+		
+		if(Client.loadConfig(serverAddress) == false) {
+			System.out.println("wystapil problem konfiguracyjny");
+			serverAddress = "localhost";
+			System.out.println("Serwer domyœlny: " + serverAddress);
+		}
+			
+		
 		socket = new Socket(serverAddress, PORT);
 		input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		output = new PrintWriter(socket.getOutputStream(), true);
 	}
 
+	
+	/**
+	 * £aduje adres serwera z pliku konfiguracyjnego.
+	 * @author Robert Adamczuk
+	 * @return boolean true jesli operacja sie udala
+	 */
+	public static boolean loadConfig(String serverAddress) {
+		try {
+			Ini ini = new Ini(new File("config.ini"));
+			System.out.println("adres serwera: " + ini.get("serverAddress", "ip"));
+			serverAddress = ini.get("serverAddress", "ip");
+				return true;
+			} catch (IOException e) {
+				System.out.println("Blad ladowania konfiguracji polaczenia: ");
+//				e.printStackTrace();
+				return false;
+				
+			}
+		
+	}
 	
 
 	/**
