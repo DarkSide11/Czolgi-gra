@@ -21,8 +21,8 @@ public class Client {
 	private static int PORT = 9999; // port na serwerze który nasluchuje, odbiera i wysyla
 	private Socket socket;
 	private Game game;
-	private BufferedReader in;
-	private PrintWriter out;
+	private BufferedReader input;
+	private PrintWriter output;
 	private Executor executor = Executors.newCachedThreadPool();
 
 	public Client() throws Exception {
@@ -31,8 +31,8 @@ public class Client {
 		String serverAddress = "localhost";
 
 		socket = new Socket(serverAddress, PORT);
-		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		out = new PrintWriter(socket.getOutputStream(), true);
+		input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		output = new PrintWriter(socket.getOutputStream(), true);
 	}
 
 	
@@ -40,13 +40,13 @@ public class Client {
 	public void SendCoordninates(){
 		
 		// Po wystrzeleniu wysy³a: power, angle, pozycja x, pozycja y
-		out.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + game.getActiveTank().y);	
+		output.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + game.getActiveTank().y);	
 		
 	}
 	
 	// do wywolania sytuacji na serwerze jak po oddaniu strzalu, z ta roznica ze strzal animuje siê duzo ponizej pola gry
 	public void SendCoordinatesNoAmmo() {
-		out.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + 10*game.getActiveTank().y);	
+		output.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + 10*game.getActiveTank().y);	
 
 	}
 	
@@ -55,7 +55,7 @@ public class Client {
 	Runnable GetMessages = () -> {
 		String response;
 		try {
-			response = in.readLine();
+			response = input.readLine();
 
 			if (response.startsWith("WELCOME")) {
 				String token = response.substring(8);
@@ -65,7 +65,7 @@ public class Client {
 
 			}
 
-			while ((response = in.readLine())!=null) {
+			while ((response = input.readLine())!=null) {
 				System.out.println(response+" "+game.getActiveTank().toString());
 				Thread.sleep(200);
 
@@ -148,7 +148,7 @@ public class Client {
 				}
 
 			}
-			out.println("QUIT");
+			output.println("QUIT");
 			game.setState(GameState.Wait); // po zakonczeniu gry blokuje
 
 			System.out.println("QUIT");
@@ -158,7 +158,7 @@ public class Client {
 			e.printStackTrace();
 			System.exit(1);
 		} catch (InterruptedException e) {
-			System.out.println("Blad IO wewnatrz GetMssages: ");
+			System.out.println("Blad Interrupted wewnatrz GetMssages: ");
 			e.printStackTrace();
 			System.exit(1);
 		} finally {
@@ -175,14 +175,14 @@ public class Client {
 	// Wysyla do serwera informacje o trafieniu
 		public void SendLivesState(){
 			
-			out.println("HIT");	
+			output.println("HIT");	
 			
 		}
 		
 		
 		public void iAmReady() {
 			game.setNotifiedOpponent(true);
-			out.println("I_AM_READY");
+			output.println("I_AM_READY");
 		}
 	
 	

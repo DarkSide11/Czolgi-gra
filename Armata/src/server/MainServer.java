@@ -12,8 +12,8 @@ public class MainServer {
 	 * Metoda main() czesci serwerowej. 
 	 * Tworzy gniazdo serwerowe. Nastêpnie w petli tworzy jeden obiekt gry, oraz dwa obiekty graczy.
 	 * Obiekty graczy tworzone s¹ w odpowiedzi na nawi¹zanie po³¹czenia aplikacji klienckiej z socketem serwerowym (listener.accept())
-	 * Dwa utworzone obiekty graczy ³¹czone s¹ w parê - poprzez wzajemne ustawienie siebie jako przeciwników
-	 * Jako pierwszy grê zacznie ten z graczy który po³¹czy³ siê wczeœniej.
+	 * Dwa utworzone obiekty graczy ³¹czone s¹ w parê - poprzez wzajemne ustawienie siebie jako przeciwników.
+	 * Pierwszy grê zacznie ten z graczy który po³¹czy³ siê wczeœniej.
 	 * Obiekty graczy dziedzicz¹ z Thread - nastêpuje ich uruchomienie i gra rozpoczyna siê.
 	 * Klauzula finally zawiera metodê close() - zamyka socket w przypadku wyst¹pienia b³êdu, odblokowuj¹c port na potrzeby uruchomienia kolejnej instancji programu.
 	 * @param args Unused

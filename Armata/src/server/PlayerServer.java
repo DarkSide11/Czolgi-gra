@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
- * Klasa graczy po stronie serwerowej.
+ * Klasa gracza po stronie serwerowej.
  * 
  * @author Robert Adamczuk
  *
@@ -58,6 +58,7 @@ import java.net.Socket;
 			input = new BufferedReader(new InputStreamReader (socket.getInputStream()));
 			
 			output = new PrintWriter(socket.getOutputStream(), true);
+			System.out.println(socket.toString());
 			
 			// "WELCOME " - aplikacja KLIENTA bedzie szukac tego slowa w strumieniu danych z serwera
 			// tak by przypisac znajdujacy sie po nim znak do gracza
