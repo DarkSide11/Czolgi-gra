@@ -15,8 +15,10 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
-/*
- * @author Tomasz Sat³awski
+/**
+ * 
+ * @author Tomasz Sat³awski 
+ *
  */
 
 public class Main extends Application {

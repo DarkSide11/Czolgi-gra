@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 public class TankPlayer1 extends Tank {
 
 	public TankPlayer1(Pane pane, double xPos, double yPos, double xVel, double yVel, double initialHealth) {
-		super(pane, xPos, yPos, xVel, yVel, initialHealth, "/icons/czolg4duzy.png", "/icons/lufa.png");
+		super(pane, xPos, yPos, xVel, yVel, initialHealth, "/icons/czolg4duzy.png", "/icons/lufa3.png");
 		this.cannonAngle = 45;
 
 	}
@@ -30,7 +30,6 @@ public class TankPlayer1 extends Tank {
 	
 	@Override
 	public String toString() {
-//		return "Tank 1" + "   "+this.hashCode();
 		return "Tank 1";
 	}
 	

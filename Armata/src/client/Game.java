@@ -191,6 +191,7 @@ public class Game {
 	/**
 	 * Odpowiada ze obsluge wejœcia u¿ytkownika, reaguje w inny sposób w zale¿nosci
 	 * od stanu w jakim znajduje siê gra oraz aplikacja
+	 * @author Tomasz Satlawski
 	 */
 	public void keyInput() {
 		gameAnimationPane.setFocusTraversable(true);
@@ -296,6 +297,7 @@ public class Game {
 	/**
 	 * Klasa animacji, w metodzie handle realizowane jest aktualizowanie pozycji
 	 * obiektów gry na ekranie.
+	 * @author Tomasz Satlawski
 	 */
 	private AnimationTimer animationTimer = new AnimationTimer() {
 
@@ -319,7 +321,7 @@ public class Game {
 				animationTime = System.currentTimeMillis();
 
 				for (Sprite x : gameObjects) {
-					x.update(frameTime / 5);
+					x.update(frameTime );
 				}
 				handleCollisions();
 				} else setApplicationState(ApplicationState.Waiting);
@@ -372,6 +374,7 @@ public class Game {
 
 	/**
 	 * Powoduje rozpoczêcie animowania obiektów w grze
+	 * @author Tomasz Satlawski
 	 */
 	public void startAnimation() {
 		animationTimer.start();
@@ -380,6 +383,7 @@ public class Game {
 	/**
 	 * Konstruktor gry, ustawia stany pocz¹tkowe gry oraz inicjalizuje okno
 	 * @param primaryStage - okno aplikacji, w którym ma byæ rysowana gra 
+	 * @author Tomasz Satlawski
 	 */
 	public Game(Stage primaryStage) {
 		polaczony = false;
@@ -399,6 +403,7 @@ public class Game {
 
 	/**
 	 * Rysuje pod³o¿e, na którym poruszaj¹ sie czo³gi
+	 * @author Tomasz Satlawski
 	 */
 	public void showTerrain() {
 		Rectangle podloze = new Rectangle(20, 20);
@@ -408,6 +413,7 @@ public class Game {
 	/**
 	 * Inicjalizuje obiekty okna gry, wczytuje obrazy ekranów, inicjalizuje obiekty
 	 * czo³gow, rozpoczyna animacje oraz wczytywanie wejœcia gracza
+	 * @author Tomasz Satlawski
 	 */
 	private void initialize() {
 		initlializeGameWindow();
@@ -422,6 +428,7 @@ public class Game {
 
 	/**
 	 * Inicjalizuje obiekty czo³gow
+	 * @author Tomasz Satlawski
 	 */
 	private void initializeTanks() {
 		tank1 = new TankPlayer1(gameAnimationPane, 0, 250, 0, 0, 100);
@@ -431,6 +438,7 @@ public class Game {
 
 	/**
 	 * Wczytuje obrazy ekranów gry
+	 * @author Tomasz Satlawski
 	 */
 	private void loadScreenImages() {
 		titleScreen = new Image("icons/StartScreen.png");
@@ -448,6 +456,7 @@ public class Game {
 
 	/**
 	 * Inicjalizuej okno gry
+	 * @author Tomasz Satlawski
 	 */
 	private void initlializeGameWindow() {
 		Group root = new Group();
@@ -466,6 +475,7 @@ public class Game {
 	/**
 	 * Dodaje pocisk oraz czo³gi do tablicy gameObjects, skutkuje to powjawieniem
 	 * sie tych obiektów w animacji. Rysuje aktualn¹ liczbê pocisków oraz ¿yæ gracza
+	 *  @author Tomasz Satlawski
 	 */
 	private void gameInit() {
 
@@ -530,6 +540,7 @@ public class Game {
 	 * @param b -Obiekt typu Sprite 
 	 * @return true- wystêpuje kolizja pomiedzy obiektami 
 	 * 		false- brak kolizji 
+	 * @author Tomasz Satlawski
 	 */
 	public boolean isCollisionBettwen(Sprite a, Sprite b) {
 		Rectangle rect1 = new Rectangle((int) a.getX(), (int) a.getY(), (int) a.getWidth(), (int) a.getHeight());
@@ -549,6 +560,7 @@ public class Game {
 	/**
 	 * Obsluguje kolizje, w zale¿noœci od typu obiektów, które koliduja ze sobi¹,
 	 * powoduje przesuniêcie czo³gu lub zaliczenie trafienia
+	 * @author Tomasz Satlawski
 	 */
 	public void handleCollisions() {
 
@@ -557,10 +569,10 @@ public class Game {
 				if (a != i) {
 					if (this.isCollisionBettwen(gameObjects.get(i), gameObjects.get(a)))
 						if (!(gameObjects.get(a) instanceof Shell))
-							if (!gameObjects.get(a).equals(activeTank)) { // na te chwile activeTank to tak naprawde
-																			// czolg gracza, passive to przeciwnika
+							if (!gameObjects.get(a).equals(activeTank)) {                          
+																			               
 
-								gameObjects.get(i).setCollision(true); // ustawia pocisk jako zderzony
+								gameObjects.get(i).setCollision(true); 
 								//
 								if (!gameObjects.get(i).equals(activeTank)) {
 									client.SendLivesState();
@@ -578,6 +590,7 @@ public class Game {
 	 * @param tekst
 	 *            "P1" ustawia aktywny czo³g na ten z lewej
 	 * 				"P2" ustaiwa aktywny czo³g na ten z prawej strony
+	 * @author Tomasz Satlawski
 	 */
 	public void setActiveTank(String tekst) {
 		if (tekst.equals("P1")) {
@@ -615,12 +628,14 @@ public class Game {
 
 	/**
 	 * @return aktualny stan  gry
+	 * @author Tomasz Satlawski
 	 */
 	public GameState getState() {
 		return gameState;
 	}
 	/**
 	 * @param state Rzadany stan gry 
+	 * @author Tomasz Satlawski
 	 */
 	public void setState(GameState state) {
 		this.gameState = state;

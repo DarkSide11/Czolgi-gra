@@ -33,10 +33,11 @@ public abstract class Tank extends Sprite {
 	public void render() {
 
 		imageView.relocate(x, y);
-		cannonView.relocate(x + 110, y - 75);
+		cannonView.relocate(x + 55 , y - 80);
 		cannonView.resize(500, 500);
 		cannonView.autosize();
 		cannonView.setFitHeight(200);
+		cannonView.setFitWidth(200);
 		cannonView.setRotate(90 - cannonAngle);
 	}
 

@@ -3,8 +3,10 @@ package client;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-/*
- * @author Tomasz Sat³awski and Robert Adamczuk (minor changes)
+/**
+ * 
+ * @author Tomasz Sat³awski and Robert Adamczuk
+ *
  */
 public class Shell extends Sprite {
 	boolean active=true;
@@ -18,7 +20,9 @@ public class Shell extends Sprite {
 		this.dx=initialSpeed*Math.cos(Math.toRadians(angle));
 	}
 	
-	
+	/**
+	 * @author Tomasz Sat³awski 
+	 */
 	public Shell(Pane pane, double xPos, double yPos, boolean isActive) {
 		super(pane, xPos, yPos, 0, 0, 0, "/icons/Pocisk2.png");
 		this.active = isActive;
@@ -27,7 +31,9 @@ public class Shell extends Sprite {
 
 	
 	
-
+	/**
+	 * @author Tomasz Sat³awski 
+	 */
 	public void update(double time) {
 		if(active) {
 		if(collision) {
@@ -83,7 +89,9 @@ public class Shell extends Sprite {
 
 	
 //	
-	
+	/**
+	 * @author Tomasz Sat³awski and Robert Adamczuk 
+	 */
 	public void shoot(double x, double y, double angle) {
 		this.active=true;
 		this.angle=angle;

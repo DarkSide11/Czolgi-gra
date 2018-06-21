@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 public class TankPlayer2 extends Tank {
 
 	public TankPlayer2(Pane pane, double xPos, double yPos, double xVel, double yVel, double initialHealth) {
-		super(pane, xPos, yPos, xVel, yVel, initialHealth, "/icons/czolg-wrogi4duzy.png", "/icons/lufa.png");
+		super(pane, xPos, yPos, xVel, yVel, initialHealth, "/icons/czolg-wrogi4duzy.png", "/icons/lufa3.png");
 		this.cannonAngle = 135;
 	}
 
@@ -18,10 +18,11 @@ public class TankPlayer2 extends Tank {
 	public void render() {
 
 		imageView.relocate(x, y);
-		cannonView.relocate(x, y - 75);
+		cannonView.relocate(x-55, y - 80);
 		cannonView.resize(500, 500);
 		cannonView.autosize();
 		cannonView.setFitHeight(200);
+		cannonView.setFitWidth(200);
 		cannonView.setRotate(90 - cannonAngle);
 	}
 
