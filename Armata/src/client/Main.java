@@ -1,4 +1,4 @@
-package client;
+ package client;
 
 import java.awt.GridLayout;
 import java.io.BufferedReader;

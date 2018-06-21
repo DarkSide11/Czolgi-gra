@@ -29,10 +29,11 @@ public abstract class Tank extends Sprite {
 	public void render() {
 
 		imageView.relocate(x, y);
-		cannonView.relocate(x + 110, y - 75);
+		cannonView.relocate(x + 55 , y - 80);
 		cannonView.resize(500, 500);
 		cannonView.autosize();
 		cannonView.setFitHeight(200);
+		cannonView.setFitWidth(200);
 		cannonView.setRotate(90 - cannonAngle);
 	}
 
@@ -50,14 +51,14 @@ public abstract class Tank extends Sprite {
 			if (!tankMovedtoDestX) {
 				if (destinationXcoornidate - x > 0) {
 					dx = 1;
-					if (x - destinationXcoornidate < 10 && x - destinationXcoornidate > -10) {
+					if (x - destinationXcoornidate < 2 && x - destinationXcoornidate > -2) {
 						dx = 0;
 						tankMovedtoDestX = true;
 					}
 				} else {
 					dx = -1;
 				}
-				if (x - destinationXcoornidate < 10 && x - destinationXcoornidate > -10) {
+				if (x - destinationXcoornidate < 2 && x - destinationXcoornidate > -2) {
 					dx = 0;
 					tankMovedtoDestX = true;
 				}
