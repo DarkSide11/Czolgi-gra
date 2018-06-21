@@ -25,7 +25,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 /**
  * 
- * @author Tomasz Sat³awski & Robert Adamczuk
+ * @author Tomasz Sat³awski and Robert Adamczuk
  *
  */
 public class Game {

@@ -13,7 +13,7 @@ import client.Game.GameState;
 import javafx.application.Platform;
 /**
  * Klasa komunikacji aplikacji klienckiej z czeœci¹ serwerow¹
- * @author Robert Adamczuk & Tomasz Sat³awski
+ * @author Robert Adamczuk and Tomasz Sat³awski
  *
  */
 public class Client {
@@ -25,6 +25,10 @@ public class Client {
 	private PrintWriter output;
 	private Executor executor = Executors.newCachedThreadPool();
 
+	/**
+	 * @author Robert Adamczuk
+	 * @throws Exception dowolny wyjatek
+	 */
 	public Client() throws Exception {
 		// Pod³¹czanie do serwera:
 		// Tworzy port komunikujacy siê z portem serwera o konkretnym adresie IP
@@ -37,6 +41,9 @@ public class Client {
 
 	
 	// WYSYLANE DANE PO WYKONANIU STRZALU:
+	/**
+	 * @author Robert Adamczuk
+	 */
 	public void SendCoordninates(){
 		
 		// Po wystrzeleniu wysy³a: power, angle, pozycja x, pozycja y
@@ -45,6 +52,9 @@ public class Client {
 	}
 	
 	// do wywolania sytuacji na serwerze jak po oddaniu strzalu, z ta roznica ze strzal animuje siê duzo ponizej pola gry
+	/**
+	 * @author Robert Adamczuk
+	 */
 	public void SendCoordinatesNoAmmo() {
 		output.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + 10*game.getActiveTank().y);	
 
@@ -52,6 +62,9 @@ public class Client {
 	
 	
 	// PRZETWARZANIE OTRZYMYWANYCH WIADOMOSCI:
+	/**
+	 * @author Robert Adamczuk
+	 */
 	Runnable GetMessages = () -> {
 		String response;
 		try {
@@ -173,19 +186,27 @@ public class Client {
 	};
 
 	// Wysyla do serwera informacje o trafieniu
+	/**
+	 * @author Robert Adamczuk
+	 */
 		public void SendLivesState(){
 			
 			output.println("HIT");	
 			
 		}
 		
-		
+		/**
+		 * @author Robert Adamczuk
+		 */
 		public void iAmReady() {
 			game.setNotifiedOpponent(true);
 			output.println("I_AM_READY");
 		}
 	
-	
+		/**
+		 * @author Robert Adamczuk ??
+		 * @throws Exception dowolny wyjatek
+		 */
 	public void play() throws Exception {
 	
 		executor.execute(GetMessages);

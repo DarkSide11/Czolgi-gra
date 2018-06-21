@@ -37,8 +37,8 @@ public class Icon  {
 	
 	/**
 	 * ustawia pozycje elementu
-	 * @param x
-	 * @param y
+	 * @param x pozycja x
+	 * @param y pozycja y
 	 */
 	public void render(double x, double y) {		
 		imageView.relocate(x, y);	

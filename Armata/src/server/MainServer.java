@@ -17,7 +17,6 @@ public class MainServer {
 	 * Obiekty graczy dziedzicz¹ z Thread - nastêpuje ich uruchomienie i gra rozpoczyna siê.
 	 * Klauzula finally zawiera metodê close() - zamyka socket w przypadku wyst¹pienia b³êdu, odblokowuj¹c port na potrzeby uruchomienia kolejnej instancji programu.
 	 * @param args Unused
-	 * @return Nothing
 	 * @throws Exception Wyst¹pienie b³êdu zamyka program.
 	 * @author Robert Adamczuk 
 	 */
