@@ -3,7 +3,9 @@ package client;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+/*
+ * @author Tomasz Sat³awski & Robert Adamczuk (minor changes)
+ */
 public class Shell extends Sprite {
 	boolean active=true;
 	double angle=20;
@@ -40,7 +42,7 @@ public class Shell extends Sprite {
 		this.x=this.x+this.dx*time;
 		this.y=this.y+this.dy*time;
 		this.render();
-		if (this.y > 300) { // 300 groundLevel    > bo os Y jest odwrocona
+		if (this.y > 300) { // ukrywanie pocisku, 300 groundLevel    > bo os Y jest odwrocona @author Robert Adamczuk
 			
 //			this.y = this.y+this.dy*time; // zeby nie bylo kolizji z pociskiem ktory juz upadl
 			
@@ -88,8 +90,8 @@ public class Shell extends Sprite {
 		this.dx=initialSpeed*Math.cos(Math.toRadians(angle));
 		this.dy=-initialSpeed*Math.sin(Math.toRadians(angle));
 		this.setAngle(angle);
-		
-		double newX = (angle <90) ? x+200 : x;   // wspolrzedna dla Tank1, lub Tank2
+		// zmiana miejsca rysowania pocisku:
+		double newX = (angle <90) ? x+200 : x;   // wspolrzedna dla Tank1, lub Tank2 @author Robert Adamczuk
 		this.setX(newX);
 		this.setY(y-20);}
 	}

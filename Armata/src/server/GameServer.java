@@ -14,6 +14,7 @@ package server;
 	 * Metoda sprawdza czy aktualny stan planszy oznacza zwyciestwo jednego z graczy 
 	 * - w aktualnej implementacji na podstawie pozosta³ych graczom punktów wytrzymaloœci
 	 * @return boolean (currentPlayer.getHitpoints() <= 0) || (currentPlayer.getOpponent().getHitpoints() <= 0);
+	 * @author Robert Adamczuk 
 	 */
 	public boolean hasWinner() {
 				return
@@ -39,6 +40,7 @@ package server;
 	 * @param x - pozycja x strzelaj¹cego
 	 * @param y - pozycja y strzelaj¹cego
 	 * @return
+	 * @author Robert Adamczuk 
 	 */
 	public synchronized boolean validShot (double power, double angle, PlayerServer player, double x, double y) {
 		if (player == currentPlayer) {
@@ -58,6 +60,7 @@ package server;
 	 * Jeœli tak odnotowywane jest trafienie.
 	 * @param player - przeciwnik który wystrzeli³ pocisk
 	 * @return boolean
+	 * @author Robert Adamczuk 
 	 */
 	public synchronized boolean validHit(PlayerServer player) { 
 		if (player == currentPlayer.getOpponent()) {
@@ -73,6 +76,7 @@ package server;
 	 * Wysy³ana te¿ jest do niego wiadomoœæ o gotowoœci pierwszego z graczy.
 	 * @param player - gracz potwierdzaj¹cy gotowoœæ
 	 * @return boolean
+	 * @author Robert Adamczuk 
 	 */
 	public synchronized boolean validConfirmation (PlayerServer player) {
 		if (player == currentPlayer) {
@@ -88,6 +92,7 @@ package server;
 	
 	/**
 	 * Metoda potwierdzaj¹ca gotowoœæ go gry, jeœli jako pierwszy potwierdza gracz P2.
+	 * @author Robert Adamczuk 
 	 */
 	public synchronized void validConfirmationIfFirstFromP2() {
 		currentPlayer.opponentPlayerIsReady();
@@ -97,6 +102,7 @@ package server;
 	/**
 	 * Metoda zwracajaca obiekt gracza mog¹cego wykonaæ ruch
 	 * @return currentPlayer
+	 * @author Robert Adamczuk 
 	 */
 	public PlayerServer getCurrentPlayer() {
 		return currentPlayer;
@@ -104,6 +110,7 @@ package server;
 
 	/**
 	 * Setter gracza mog¹cego wykonaæ ruch.
+	 * @author Robert Adamczuk 
 	 */
 	public void setCurrentPlayer(PlayerServer currentPlayer) {
 		this.currentPlayer = currentPlayer;

@@ -1,6 +1,7 @@
 package server;
 /**
  * Klasa zawierajaca metody przetwarzajace otrzymywany przez serwer strumien wejsciowy.
+ * @author Robert Adamczuk 
  */
 public class DataProcessor {
 
@@ -14,6 +15,7 @@ public class DataProcessor {
 	 * @param numberOfParameter - numer parametru który zwraca metoda
 	 * @param input - wejsciowy ³añcuch znaków
 	 * @return - zwracany parametr.
+	 * @author Robert Adamczuk 
 	 */
 	
 	public String parseMoveData (int numberOfParameter, String input) {

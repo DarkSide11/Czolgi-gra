@@ -1,7 +1,10 @@
 package client;
 
 import javafx.scene.layout.Pane;
-
+/**
+ * @author Tomasz Sat³awski
+ *
+ */
 public class TankPlayer1 extends Tank {
 
 	public TankPlayer1(Pane pane, double xPos, double yPos, double xVel, double yVel, double initialHealth) {

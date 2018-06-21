@@ -19,6 +19,7 @@ public class MainServer {
 	 * @param args Unused
 	 * @return Nothing
 	 * @throws Exception Wyst¹pienie b³êdu zamyka program.
+	 * @author Robert Adamczuk 
 	 */
 public static void main(String[] args) throws Exception {
 		

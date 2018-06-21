@@ -23,7 +23,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Tomasz Sat³awski & Robert Adamczuk
+ *
+ */
 public class Game {
 
 	/**
@@ -472,7 +476,7 @@ public class Game {
 		shell1 = new Shell(gameAnimationPane, 400, 800, false); // Ustawic pocisk tak by byl najmniej widoczny (blisko
 																// dolu pola gry)
 		gameObjects.add(shell1);
-		// rysuje "liczbe zyc" oraz "stan amunicji"
+		// rysuje "liczbe zyc" oraz "stan amunicji" @author Robert Adamczuk
 		drawLives();
 		drawAmmo();
 		isGameInitialized = true;
@@ -480,6 +484,7 @@ public class Game {
 
 	/**
 	 * Rysuje aktualn¹ liczbê pocisków oraz ¿yæ gracza
+	 * @author Robert Adamczuk
 	 */
 	public void drawLives() {
 		double space = 60;
@@ -492,6 +497,7 @@ public class Game {
 
 	/**
 	 * Zmniejsza liczbê punktów ¿ycia gracza
+	 * @author Robert Adamczuk
 	 */
 	public void eraseLive() {
 		lives[myHitPoints - 1].hide();
@@ -499,6 +505,7 @@ public class Game {
 
 	/**
 	 * Rysuje aktualn¹ liczbê amunicji
+	 * @author Robert Adamczuk
 	 */
 	public void drawAmmo() {
 		double space = 25;
@@ -511,6 +518,7 @@ public class Game {
 
 	/**
 	 * Zmniejsza liczbê amunicji gracza
+	 * @author Robert Adamczuk
 	 */
 	public void eraseAmmo() {
 		ammo[myAmmo - 1].hide();

@@ -14,6 +14,7 @@ public class DataProcessing {
 	 * @param numberOfParameter - numer parametru który zwraca metoda
 	 * @param input - wejsciowy ³añcuch znaków
 	 * @return - zwracany parametr.
+	 * @author Robert Adamczuk
 	 */
 	public static  synchronized String parseMoveData (int numberOfParameter, String input) {
 		String[] parameters = input.split(":"); 

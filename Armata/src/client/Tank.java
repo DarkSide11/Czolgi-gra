@@ -3,7 +3,11 @@ package client;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+/**
+ * 
+ * @author Tomasz Sat³awski
+ *
+ */
 public abstract class Tank extends Sprite {
 
 	private boolean tankMovedtoDestX = true;

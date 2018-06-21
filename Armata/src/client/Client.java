@@ -13,7 +13,7 @@ import client.Game.GameState;
 import javafx.application.Platform;
 /**
  * Klasa komunikacji aplikacji klienckiej z czeœci¹ serwerow¹
- * @author Robert
+ * @author Robert Adamczuk & Tomasz Sat³awski
  *
  */
 public class Client {

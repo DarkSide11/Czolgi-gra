@@ -3,7 +3,10 @@ package client;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+/**
+ * @author Tomasz Sat³awski
+ *
+ */
 public class TankPlayer2 extends Tank {
 
 	public TankPlayer2(Pane pane, double xPos, double yPos, double xVel, double yVel, double initialHealth) {

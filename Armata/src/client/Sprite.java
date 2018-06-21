@@ -4,7 +4,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+/**
+ * @author Tomasz Sat³awski
+ */
 public class Sprite {
 	Image image;
 	ImageView imageView;

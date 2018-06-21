@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 
 /**
  * Klasa odpowiedzialna za rysowanie ikon punkto wytrzymalosci, amunicji i tp elementow.
- * @author Robert
+ * @author Robert Adamczuk
  *
  */
 public class Icon  {
