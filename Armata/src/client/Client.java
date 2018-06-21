@@ -40,8 +40,9 @@ public class Client {
 	}
 
 	
-	// WYSYLANE DANE PO WYKONANIU STRZALU:
+
 	/**
+	 * WYSYLANE DANE PO WYKONANIU STRZALU:
 	 * @author Robert Adamczuk
 	 */
 	public void SendCoordninates(){
