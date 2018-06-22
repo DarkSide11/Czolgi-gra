@@ -8,8 +8,11 @@ package server;
 
 	// gracz ktory moze wykonac ruch:
 	private PlayerServer currentPlayer;
+	private volatile int playersThatAreReadyCounter;
+//	private volatile Hourglass hourglass = new Hourglass(10);
 		
-	
+
+
 	/**
 	 * Metoda sprawdza czy aktualny stan planszy oznacza zwyciestwo jednego z graczy 
 	 * - w aktualnej implementacji na podstawie pozosta³ych graczom punktów wytrzymaloœci
@@ -116,7 +119,27 @@ package server;
 		this.currentPlayer = currentPlayer;
 	}
 
+	/**
+	 * @return int Zwraca ilosc gotowych do gry graczy
+	 * @author Robert Adamczuk 
+	 */
+	public synchronized int getPlayersThatAreReadyCounter() {
+		return playersThatAreReadyCounter;
+	}
+
+	/**
+	 * Zwieksza ilosc gotowych graczy o 1
+	 * @author Robert Adamczuk 
+	 */	
+	public synchronized void addOneToPlayersThatAreReadyCounter() {
+		this.playersThatAreReadyCounter++;
+	}
+
 	
+
+
+
+
 	
 	
 }

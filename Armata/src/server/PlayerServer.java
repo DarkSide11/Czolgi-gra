@@ -170,14 +170,41 @@ class PlayerServer extends Thread {
 	public void opponentPlayerShot(double power, double angle, double x, double y) {
 		opponentAmmo--;
 		output.println("OPPONENT_SHOT " + power + ":" + angle + ":" + x + ":" + y);
+		output.println("RESET_HOURGLASS");
 	}
+	
+	
 
 	/**
 	 * Metoda informujaca o gotowosci przeciwnika do gry
 	 */
 	public void opponentPlayerIsReady() {
 		output.println("OPPONENT_IS_READY");
+		
+		game.addOneToPlayersThatAreReadyCounter();
+		System.out.println("Number of ready players: " + game.getPlayersThatAreReadyCounter());
+		if (game.getPlayersThatAreReadyCounter() >= 2) {
+			
+			game.getCurrentPlayer().startHourglass();
+
+		}
 	}
+	
+	public void startHourglass() {
+		output.println("START_HOURGLASS");
+		System.out.println(game.getCurrentPlayer() + " uruchom odliczanie");
+	}
+	
+	
+	public void switchPlayersAfterTimeout(double angle, double x, double y) {
+		game.setCurrentPlayer(game.getCurrentPlayer().opponent);
+		
+		game.getCurrentPlayer().output.println("YOUR_TURN " + angle + ":" + x + ":" + y);
+		
+		System.out.println("zamiana graczy po przekroczeniu czasu");
+		
+	}
+	
 
 	/**
 	 * Nadpisana metoda run(). W petli pobiera polecenia od klienta i odpowiednio je
@@ -193,9 +220,11 @@ class PlayerServer extends Thread {
 			if (token.equals("P1")) {
 				output.println("MESSAGE Twoja tura");
 			}
-
+			
+			
 			// W petli pobiera polecenia od klienta i przetwarza je:
 			while (true) {
+								
 				String commandLine = input.readLine();
 
 				if (commandLine.startsWith("SHOT ")) { // 1- power, 2- angle, 3- x , 4- y
@@ -218,6 +247,8 @@ class PlayerServer extends Thread {
 						}
 
 						output.println("VALID_SHOT");
+//						System.out.println("RESET HOURGLASS");
+//						game.getHourglass().resetTimer();
 
 					} else {
 						output.println("MESSAGE Nieznane polecenie");
@@ -244,10 +275,25 @@ class PlayerServer extends Thread {
 						System.out.println("P2 (nieaktywny gracz) potwierdzil gotowosc jako pierwszy");
 					}
 				}
+				
+				else if (commandLine.startsWith("SWITCH_PLAYERS_TIMEOUT")) {
+					
+					double angle = Double.parseDouble(dataProcessor.parseMoveData(1, commandLine.substring(23)));
+					double xPos = Double.parseDouble(dataProcessor.parseMoveData(2, commandLine.substring(23)));
+					double yPos = Double.parseDouble(dataProcessor.parseMoveData(3, commandLine.substring(23)));
+
+					System.out.println("kat: " + angle);
+					System.out.println("x: " + xPos + "    " + "y: " + yPos);
+					
+					
+					switchPlayersAfterTimeout(angle, xPos, yPos);
+				}
 
 				else if (commandLine.startsWith("QUIT")) {
 					return;
 				}
+						
+				
 			}
 
 		} catch (IOException e) {
