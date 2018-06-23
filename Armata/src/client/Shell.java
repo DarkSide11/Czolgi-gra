@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
  *
  */
 public class Shell extends Sprite {
+	double wind=0.001;
 	boolean active=true;
 	double angle=20;
 	double initialSpeed=2;
@@ -49,6 +50,7 @@ public class Shell extends Sprite {
 			y=-20;
 			collision=false;
 		} 
+		this.dx=this.dx+wind*time;
 		this.dy=this.dy+gravity*time;
 		this.x=this.x+this.dx*time;
 		this.y=this.y+this.dy*time;
@@ -105,7 +107,7 @@ public class Shell extends Sprite {
 		this.dy=-initialSpeed*Math.sin(Math.toRadians(angle));
 		this.setAngle(angle);
 		// zmiana miejsca rysowania pocisku:
-		double newX = (angle <90) ? x+20 : x-20;   // wspolrzedna dla Tank1, lub Tank2 @author Robert Adamczuk
+		double newX = (angle <90) ? x+40 : x-40;   // wspolrzedna dla Tank1, lub Tank2 @author Robert Adamczuk
 		this.setX(newX);
 		this.setY(y-50);}
 	}

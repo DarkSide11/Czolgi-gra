@@ -132,6 +132,7 @@ public class Client {
 					
 					
 					// Przemieszczenie czo³gu:
+					game.gameState=GameState.Wait;
 					double xPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(3, shot));
 					double yPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(4, shot));
 					double cannonAngle = Double.parseDouble(DataProcessing.parseMoveData(2, shot));
@@ -139,7 +140,7 @@ public class Client {
 					System.out.println(yPosOfEnemy);
 					System.out.println(cannonAngle);
 					game.moveEnemyTankTo(xPosOfEnemy, yPosOfEnemy, cannonAngle);
-					
+					Thread.sleep(2000);
 					
 					
 					// animacja strzalu:
@@ -148,8 +149,8 @@ public class Client {
 	
 						System.out.println("Pocisk juz jest");
 						game.getShell().shoot(xPosOfEnemy, yPosOfEnemy, angle);
-					
-
+						Thread.sleep(2000);
+						game.gameState=GameState.Play;
 					
 				}  else if (response.startsWith("VICTORY")) {
 					game.setApplicationState(game.applicationState.Victory);
