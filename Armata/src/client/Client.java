@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import org.ini4j.Ini;
 
 import client.DataProcessing;
+import client.Game.ApplicationState;
 import client.Game.GameState;
 import javafx.application.Platform;
 /**
@@ -183,7 +184,7 @@ public class Client {
 				
 				
 				else if (response.startsWith("TIE")) { // do opracowania na serwerze - np koniec amunicji
-					System.out.println("Remis");
+				game.setApplicationState(ApplicationState.Draw);
 					break;
 				}
 				

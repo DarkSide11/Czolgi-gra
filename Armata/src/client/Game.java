@@ -138,6 +138,17 @@ public class Game {
 	/**
 	 * Obiekt reprezentujacy obraz ekranu czekania
 	 */
+	/**
+	 * Obiekt reprezentujacy obraz ekranu tytu³owego
+	 */
+	private Image drawScreen;
+	/**
+	 * Obiekt umo¿liwiajacy rysowanie oraz skalowanie ekranu tytu³owego
+	 */
+	private ImageView drawScreenView;
+	/**
+	 * Obiekt reprezentujacy obraz ekranu czekania
+	 */
 	private Image waitingScreen;
 	/**
 	 * Obiekt umo¿liwiajacy rysowanie oraz skalowanie ekranu tytu³owego
@@ -384,6 +395,14 @@ public class Game {
 					gameAnimationPane.getChildren().add(victoryScreenView);
 
 				break;
+				
+			case Draw:
+				gameAnimationPane.getChildren().clear();
+				if (!gameAnimationPane.getChildren().contains(drawScreenView))
+					gameAnimationPane.getChildren().add(drawScreenView);
+
+				break;
+				
 
 			case Defeat:
 				gameAnimationPane.getChildren().clear();
@@ -496,6 +515,9 @@ public class Game {
 
 		waitingScreen = new Image("icons/WaitScreen.png");
 		waitingScreenView = new ImageView(waitingScreen);
+		
+		drawScreen = new Image("icons/draw3.png");
+		drawScreenView = new ImageView(waitingScreen);
 		
 		gameBackground = new Image("icons/Podlo¿e.png");
 		gameBackgroundImageView= new ImageView(gameBackground);
@@ -770,7 +792,7 @@ public class Game {
 	}
 
 	public enum ApplicationState {
-		Playing, StartScreen, Defeat, Victory, Waiting
+		Playing, StartScreen, Defeat, Victory, Waiting,Draw
 	};
 
 	public enum GameState {
