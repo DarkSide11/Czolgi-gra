@@ -17,17 +17,18 @@ public class TankPlayer2 extends Tank {
 	@Override
 	public void render() {
 
-		imageView.relocate(x, y);
-		cannonView.relocate(x-55, y - 80);
-		cannonView.resize(500, 500);
-		cannonView.autosize();
-		cannonView.setFitHeight(200);
-		cannonView.setFitWidth(200);
+		changeHeightandWidth(60,80);
+		cannonView.setFitHeight(100);
+		cannonView.setFitWidth(100);
+		imageView.relocate(x-width/2, y-height);
+		cannonView.relocate((x-width/2)-width*0.35 , (y-height)-height*0.60);
+	
 		cannonView.setRotate(90 - cannonAngle);
 	}
 
 	@Override
 	public void update(double time) {
+		
 		super.update(time);
 
 		if (cannonAngle <= 180 && cannonAngle >= 135) {

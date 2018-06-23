@@ -35,25 +35,31 @@ public class Shell extends Sprite {
 	 * @author Tomasz Sat³awski 
 	 */
 	public void update(double time) {
+		if(x<5)
+			x=10;
+		
+		if(x>790)
+			x=790;
 		if(active) {
 		if(collision) {
 			active=false;
 			dx=0;
 			dy=0;
-			x=-1;
-			y=0;
+			x=50;
+			y=-20;
 			collision=false;
 		} 
 		this.dy=this.dy+gravity*time;
 		this.x=this.x+this.dx*time;
 		this.y=this.y+this.dy*time;
 		this.render();
-		if (this.y > 300) { // ukrywanie pocisku, 300 groundLevel    > bo os Y jest odwrocona @author Robert Adamczuk
+		
+		if (this.y > lista.get((int) x)) { // ukrywanie pocisku, 300 groundLevel    > bo os Y jest odwrocona @author Robert Adamczuk
 			
 //			this.y = this.y+this.dy*time; // zeby nie bylo kolizji z pociskiem ktory juz upadl
 			
-			this.x=0;
-			this.y=0;
+			this.x=10;
+			this.y=-20;
 			this.render();
 			active = false;
 			
@@ -99,9 +105,9 @@ public class Shell extends Sprite {
 		this.dy=-initialSpeed*Math.sin(Math.toRadians(angle));
 		this.setAngle(angle);
 		// zmiana miejsca rysowania pocisku:
-		double newX = (angle <90) ? x+250 : x-50;   // wspolrzedna dla Tank1, lub Tank2 @author Robert Adamczuk
+		double newX = (angle <90) ? x+20 : x-20;   // wspolrzedna dla Tank1, lub Tank2 @author Robert Adamczuk
 		this.setX(newX);
-		this.setY(y-20);}
+		this.setY(y-50);}
 	}
 
 

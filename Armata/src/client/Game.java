@@ -156,6 +156,8 @@ public class Game {
 	/**
 	 * Zmienna informuj¹ca czy do gry zostal pod³¹czony drugi gracz
 	 */
+	private Image gameBackground ;
+	private ImageView gameBackgroundImageView;
 	private boolean polaczony;
 	/**
 	 * Informuje czy zmiene gry zosta³y zainicjalizowane
@@ -450,7 +452,7 @@ public class Game {
 		initlializeGameWindow();
 
 		loadScreenImages();
-
+		gameAnimationPane.getChildren().add(gameBackgroundImageView);
 		initializeTanks();
 		keyInput();
 		this.startAnimation();
@@ -462,7 +464,7 @@ public class Game {
 	 * @author Tomasz Satlawski
 	 */
 	private void initializeTanks() {
-		tank1 = new TankPlayer1(gameAnimationPane, 0, 250, 0, 0, 100);
+		tank1 = new TankPlayer1(gameAnimationPane, 0, 500, 0, 0, 100);
 		tank2 = new TankPlayer2(gameAnimationPane, 500, 250, 0, 0, 100);
 		this.activeTank = tank1;
 	}
@@ -483,6 +485,9 @@ public class Game {
 
 		waitingScreen = new Image("icons/WaitScreen.png");
 		waitingScreenView = new ImageView(waitingScreen);
+		
+		gameBackground = new Image("icons/Podlo¿e.png");
+		gameBackgroundImageView= new ImageView(gameBackground);
 	}
 
 	/**
@@ -497,6 +502,7 @@ public class Game {
 		root.getChildren().add(gameAnimationPane);
 
 		graphicsContext = canvas.getGraphicsContext2D();
+		
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setResizable(false);
@@ -509,12 +515,10 @@ public class Game {
 	 *  @author Tomasz Satlawski
 	 */
 	private void gameInit() {
-
-		graphicsContext.setFill(Color.GREEN);
-		graphicsContext.fillRect(0, groundCoordinatex, canvas.getWidth(), canvas.getHeight() - this.groundCoordinatex);
+		
 		gameObjects.add(tank1);
 		gameObjects.add(tank2);
-		shell1 = new Shell(gameAnimationPane, 400, 800, false); // Ustawic pocisk tak by byl najmniej widoczny (blisko
+		shell1 = new Shell(gameAnimationPane, 400, -20, false); // Ustawic pocisk tak by byl najmniej widoczny (blisko
 																// dolu pola gry)
 		gameObjects.add(shell1);
 		// rysuje "liczbe zyc" oraz "stan amunicji" @author Robert Adamczuk
@@ -535,7 +539,7 @@ public class Game {
 		for (int i = 0; i < hourglass.getInitialTime(); i++) {
 			timeIcons[i] = new Icon(gameAnimationPane, 10 + space * i, 520, "/icons/time4.png");
 			timeIcons[i].render(550 + space * i, 520);
-//			timeIcons[i].hide();
+
 		}
 	}
 
@@ -548,9 +552,7 @@ public class Game {
 	
 	
 	
-//	public void eraseTime() {
-//		timeIcons[myHitPoints - 1].hide();
-//		}
+
 	
 	
 	
@@ -605,8 +607,8 @@ public class Game {
 	 * @author Tomasz Satlawski
 	 */
 	public boolean isCollisionBettwen(Sprite a, Sprite b) {
-		Rectangle rect1 = new Rectangle((int) a.getX(), (int) a.getY(), (int) a.getWidth(), (int) a.getHeight());
-		Rectangle rect2 = new Rectangle((int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight());
+		Rectangle rect1 = new Rectangle((int) (a.getX()-a.getWidth()/2), (int) (a.getY()-a.getHeight()), (int) a.getWidth(), (int) a.getHeight());
+		Rectangle rect2 = new Rectangle((int) (b.getX()-b.getWidth()/2), (int) (b.getY()-b.getHeight()), (int) b.getWidth(), (int) b.getHeight());
 
 		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height
 				&& rect1.height + rect1.y > rect2.y) {
@@ -679,10 +681,6 @@ public class Game {
 	 *            k¹t podniesienia armaty 
 	 */
 	public void moveEnemyTankTo(double x, double y, double arm) {
-		int i1;
-		if (activeTank == tank1) {
-		} else {
-		}
 
 		passiveTank.moveTankTo(x, y, arm);
 
@@ -711,6 +709,8 @@ public class Game {
 	public Client getClient() {
 		return client;
 	}
+
+	
 
 	public void setClient(Client client) {
 		this.client = client;

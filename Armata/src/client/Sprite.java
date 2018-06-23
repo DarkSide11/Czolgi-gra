@@ -1,5 +1,10 @@
 package client;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +23,7 @@ public class Sprite {
 	double height;
 	double width;
 	boolean collision=false;
+	 static protected ArrayList<Integer> lista =new ArrayList<Integer>();
 	
 	public boolean isCollision() {
 		return collision;
@@ -29,8 +35,7 @@ public class Sprite {
 	double health; 
 	public Sprite(Pane pane,double xPos,double yPos, double xVel,double yVel,double InitialHealth, String ImageURL) {
 		this.pane=pane;
-		this.x=xPos;
-		this.y=yPos;
+	
 		this.dx=xVel;
 		this.dy=yVel;
 		this.health=InitialHealth;
@@ -41,6 +46,10 @@ public class Sprite {
 		this.imageView.setFitWidth(this.image.getWidth());
 		this.height=imageView.getFitHeight();
 		this.width=imageView.getFitWidth();
+		this.x=xPos;
+		this.y=yPos;
+		wczytajWspolrzednezPliku();
+		wypiszWspolrzedne();
 	}
 	
 	public double getHeight() {
@@ -65,7 +74,7 @@ public class Sprite {
 
 	public void render() {
 	
-		imageView.relocate(x, y);
+		imageView.relocate(x-(width/2), y+height);
 	
 	}
 	public void update(double time) {
@@ -123,5 +132,23 @@ public class Sprite {
 	public void multiplyDx(int a) {
 		this.dx=this.dx*a;
 	}
+	public void wczytajWspolrzednezPliku() {
+		try {
+	
+			Scanner odczyt = new Scanner(new File("content/plikiTekstowe/PozycjaCzolgu.txt"));
+			while(odczyt.hasNext()) {
+				lista.add(new Integer(odczyt.nextLine()));
+			}
+			odczyt.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void wypiszWspolrzedne() {
+//		for(int i=0;i<lista.size();i++) {
+//			System.out.println(lista.get(i));
+//	}
+}
 }
 
