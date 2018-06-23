@@ -1,7 +1,11 @@
 package client;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -132,16 +136,39 @@ public class Sprite {
 	public void multiplyDx(int a) {
 		this.dx=this.dx*a;
 	}
+	/**
+	 * @author Robert Adamczuk and Tomasz Sat³awski
+	 * 
+	 */
 	public void wczytajWspolrzednezPliku() {
 		try {
 	
-			Scanner odczyt = new Scanner(new File("content/plikiTekstowe/PozycjaCzolgu.txt"));
-			while(odczyt.hasNext()) {
-				lista.add(new Integer(odczyt.nextLine()));
+			InputStream in = getClass().getResourceAsStream("/plikiTekstowe/PozycjaCzolgu.txt"); 
+			BufferedReader odczyt = new BufferedReader(new InputStreamReader(in));
+//			Scanner odczyt = new Scanner(new File("content/plikiTekstowe/PozycjaCzolgu.txt"));
+			while(true) {
+				String line = odczyt.readLine();
+				if (line == null) {
+					break;
+				} else {
+				System.out.println(line);
+				Integer lineInt = Integer.parseInt(line);
+//				lista.add(new Integer(odczyt.readLine()));
+				lista.add(lineInt);
+				}
 			}
 			odczyt.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.exit(1);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			System.exit(1);
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.exit(1);
 			e.printStackTrace();
 		}
 	}
