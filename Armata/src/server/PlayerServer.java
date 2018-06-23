@@ -191,8 +191,15 @@ class PlayerServer extends Thread {
 	}
 	
 	public void startHourglass() {
-		output.println("START_HOURGLASS");
+		if (game.p2ConfirmedFirst) {
+			game.setCurrentPlayer(game.getCurrentPlayer().opponent);
+			game.getCurrentPlayer().output.println("START_HOURGLASS");
+		game.setCurrentPlayer(game.getCurrentPlayer().opponent);
 		System.out.println(game.getCurrentPlayer() + " uruchom odliczanie");
+		} else {
+			output.println("START_HOURGLASS");
+			System.out.println(game.getCurrentPlayer() + " uruchom odliczanie");
+		}
 	}
 	
 	
@@ -273,6 +280,7 @@ class PlayerServer extends Thread {
 					} else { // jesli P2:
 						game.validConfirmationIfFirstFromP2();
 						System.out.println("P2 (nieaktywny gracz) potwierdzil gotowosc jako pierwszy");
+						game.p2ConfirmedFirst = true;
 					}
 				}
 				

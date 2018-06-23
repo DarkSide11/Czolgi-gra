@@ -10,6 +10,7 @@ package server;
 	private PlayerServer currentPlayer;
 	private volatile int playersThatAreReadyCounter;
 //	private volatile Hourglass hourglass = new Hourglass(10);
+	boolean p2ConfirmedFirst;
 		
 
 

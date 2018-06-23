@@ -28,8 +28,8 @@ public static void main(String[] args) throws Exception {
 		try {
 			while(true) {
 				GameServer game = new GameServer();
-			PlayerServer playerP1 = new PlayerServer(listener.accept(), "P1", game, 10, 10, 3);						
-			PlayerServer playerP2 = new PlayerServer(listener.accept(), "P2", game, 310, 10, 3);
+			PlayerServer playerP1 = new PlayerServer(listener.accept(), "P1", game, 0, 10, 3);						
+			PlayerServer playerP2 = new PlayerServer(listener.accept(), "P2", game, 500, 10, 3);
 			
 			playerP1.setOpponent(playerP2);
 			playerP2.setOpponent(playerP1);
