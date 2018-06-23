@@ -23,7 +23,7 @@ public class Hourglass {
 				timeLeft--;
 			}
 								
-				System.out.println("Pozosta造 czas: " + timeLeft);
+//				System.out.println("Pozosta造 czas: " + timeLeft);
 				if (timeLeft <= 0) {
 					timeUp = true;
 				}
@@ -76,7 +76,7 @@ public class Hourglass {
 						timeLeft--;
 					}
 				
-				System.out.println("Pozosta造 czas: " + timeLeft);
+//				System.out.println("Pozosta造 czas: " + timeLeft);
 				if (timeLeft <= 0) {
 					timeUp = true;
 				}

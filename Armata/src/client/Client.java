@@ -95,7 +95,7 @@ public class Client {
 	 * @author Robert Adamczuk
 	 */
 	public void switchPlayers() {
-		output.println("SWITCH_PLAYERS_TIMEOUT " + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + 10*game.getActiveTank().y );
+		output.println("SWITCH_PLAYERS_TIMEOUT " + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + game.getActiveTank().y );
 		System.out.println("zamien graczy");
 	}
 	
