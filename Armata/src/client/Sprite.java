@@ -151,7 +151,7 @@ public class Sprite {
 				if (line == null) {
 					break;
 				} else {
-				System.out.println(line);
+//				System.out.println(line);
 				Integer lineInt = Integer.parseInt(line);
 //				lista.add(new Integer(odczyt.readLine()));
 				lista.add(lineInt);
