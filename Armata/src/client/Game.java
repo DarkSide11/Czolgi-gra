@@ -1,6 +1,7 @@
 package client;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -13,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
@@ -22,6 +24,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -30,6 +35,9 @@ import javafx.stage.Stage;
  *
  */
 public class Game {
+	Text text; 
+	Random rand = new Random();
+	private double gameWind=0;
 	
 	private Hourglass hourglass = new Hourglass(10, this);
 
@@ -172,6 +180,7 @@ public class Game {
 	 */
 	private Icon[] ammo = new Icon[this.myAmmo];
 	
+	
 	/**
 	 * Tablica przechowuwuj¹ca ikony czasu
 	 */
@@ -240,6 +249,7 @@ public class Game {
 						activeTank.setCannonSpeed(0);
 						activeTank.setDx(0);
 						
+						
 						System.out.println("Odliczanie zatrzymane");
 						hourglass.timer.cancel();
 						hourglass.timer.purge();
@@ -257,17 +267,18 @@ public class Game {
 						}
 
 						if (!gameObjects.contains(shell1)) {
-							shell1 = new Shell(gameAnimationPane, activeTank.getX() + 100, activeTank.getY(), 2,
+							shell1 = new Shell(gameAnimationPane, activeTank.getX() + 100, activeTank.getY(), gameWind,
 									activeTank.getCannonAngle());
 							gameObjects.add(shell1);
 						} else if (myAmmo > -1) {
-							shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle());
+							shell1.shoot(activeTank.getX(), activeTank.getY(), activeTank.getCannonAngle(),gameWind);
 							client.SendCoordninates();
 						} else {
 							System.out.println("Brak amunicji");
 							client.SendCoordinatesNoAmmo();
 						}
-
+						gameWind = rand.nextInt(20) -10;
+						text.setText("WIND : "+new Double(gameWind).toString());
 						setState(GameState.Wait);
 
 						break;
@@ -450,7 +461,7 @@ public class Game {
 	 */
 	private void initialize() {
 		initlializeGameWindow();
-
+		gameWind = rand.nextInt(20) -10;
 		loadScreenImages();
 		gameAnimationPane.getChildren().add(gameBackgroundImageView);
 		initializeTanks();
@@ -524,6 +535,21 @@ public class Game {
 		// rysuje "liczbe zyc" oraz "stan amunicji" @author Robert Adamczuk
 		drawLives();
 		drawAmmo();
+		text = new Text("WIND : "+new Double(gameWind).toString());
+		text.setX(500);
+		text.setY(50);
+		
+		DropShadow ds = new DropShadow();
+		ds.setColor(Color.rgb(254, 235, 66, 0.3));
+		ds.setOffsetX(5);
+		ds.setOffsetY(5);
+		ds.setRadius(5);
+		ds.setSpread(0.2);
+		text.setEffect(ds);
+		text.setFill(Color.KHAKI);
+		text.setFont(Font.font(null, FontWeight.BOLD, 40));
+		gameAnimationPane.getChildren().add(text);
+
 		prepareTime();
 		isGameInitialized = true;
 	}
@@ -581,6 +607,9 @@ public class Game {
 	 * Rysuje aktualn¹ liczbê amunicji
 	 * @author Robert Adamczuk
 	 */
+	
+	
+
 	public void drawAmmo() {
 		double space = 25;
 
@@ -762,6 +791,13 @@ public class Game {
 	 */	
 	public Hourglass getHourglass() {
 		return hourglass;
+	}
+	public double getGameWind() {
+		return gameWind;
+	}
+
+	public void setGameWind(double gameWind) {
+		this.gameWind = gameWind;
 	}
 
 }

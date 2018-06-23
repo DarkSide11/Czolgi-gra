@@ -166,10 +166,11 @@ class PlayerServer extends Thread {
 	 * @param angle
 	 * @param x
 	 * @param y
+	 * @param wind 
 	 */
-	public void opponentPlayerShot(double power, double angle, double x, double y) {
+	public void opponentPlayerShot(double power, double angle, double x, double y, double wind) {
 		opponentAmmo--;
-		output.println("OPPONENT_SHOT " + power + ":" + angle + ":" + x + ":" + y);
+		output.println("OPPONENT_SHOT " + power + ":" + angle + ":" + x + ":" + y+":"+wind);
 		output.println("RESET_HOURGLASS");
 	}
 	
@@ -240,12 +241,12 @@ class PlayerServer extends Thread {
 					double angle = Double.parseDouble(dataProcessor.parseMoveData(2, commandLine.substring(5)));
 					double xPos = Double.parseDouble(dataProcessor.parseMoveData(3, commandLine.substring(5)));
 					double yPos = Double.parseDouble(dataProcessor.parseMoveData(4, commandLine.substring(5)));
-
+					double wind = Double.parseDouble(dataProcessor.parseMoveData(5, commandLine.substring(5)));
 					System.out.println("sila: " + power);
 					System.out.println("kat: " + angle);
 					System.out.println("x: " + xPos + "    " + "y: " + yPos);
 
-					if (game.validShot(power, angle, this, xPos, yPos)) {
+					if (game.validShot(power, angle, this, xPos, yPos,wind)) {
 
 						myAmmo--;
 						System.out.println("myAmmo: " + myAmmo + "opponentAmmo: " + opponentAmmo);

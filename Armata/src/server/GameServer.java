@@ -45,13 +45,14 @@ package server;
 	 * @param y - pozycja y strzelaj¹cego
 	 * @return
 	 * @author Robert Adamczuk 
+	 * @param wind 
 	 */
-	public synchronized boolean validShot (double power, double angle, PlayerServer player, double x, double y) {
+	public synchronized boolean validShot (double power, double angle, PlayerServer player, double x, double y, double wind) {
 		if (player == currentPlayer) {
 			
 			currentPlayer = currentPlayer.getOpponent();
 			
-			currentPlayer.opponentPlayerShot(power, angle, x, y);
+			currentPlayer.opponentPlayerShot(power, angle, x, y,wind);
 			return true;
 		}
 		return false;

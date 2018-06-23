@@ -73,12 +73,12 @@ public class Client {
 
 	/**
 	 * WYSYLANE DANE PO WYKONANIU STRZALU:
-	 * @author Robert Adamczuk
+	 * @author Robert Adamczuk and Tomasz Satlawski
 	 */
 	public void SendCoordninates(){
 		
-		// Po wystrzeleniu wysy³a: power, angle, pozycja x, pozycja y
-		output.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + game.getActiveTank().y);	
+		// Po wystrzeleniu wysy³a: power, angle, pozycja x, pozycja y wind
+		output.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + game.getActiveTank().y+":"+game.getGameWind());	
 		
 	}
 	
@@ -132,10 +132,11 @@ public class Client {
 					
 					
 					// Przemieszczenie czo³gu:
-					game.gameState=GameState.Wait;
+					game.gameState=GameState.Wait;//Tomasz Sat³awski
 					double xPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(3, shot));
 					double yPosOfEnemy = Double.parseDouble(DataProcessing.parseMoveData(4, shot));
 					double cannonAngle = Double.parseDouble(DataProcessing.parseMoveData(2, shot));
+					double wind = Double.parseDouble(DataProcessing.parseMoveData(5, shot));
 					System.out.println(xPosOfEnemy);
 					System.out.println(yPosOfEnemy);
 					System.out.println(cannonAngle);
@@ -148,7 +149,7 @@ public class Client {
 					double angle = Double.parseDouble(DataProcessing.parseMoveData(2, shot));
 	
 						System.out.println("Pocisk juz jest");
-						game.getShell().shoot(xPosOfEnemy, yPosOfEnemy, angle);
+						game.getShell().shoot(xPosOfEnemy, yPosOfEnemy, angle,wind);
 						Thread.sleep(2000);
 						game.gameState=GameState.Play;
 					

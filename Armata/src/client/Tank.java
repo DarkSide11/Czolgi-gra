@@ -40,16 +40,17 @@ public abstract class Tank extends Sprite {
 		this.cannon = new Image(tankCannonUrl);
 		cannonView = new ImageView(cannon);
 		this.pane.getChildren().add(cannonView);
+		changeHeightandWidth(60,100);
+		cannonView.setFitHeight(100);
+		cannonView.setFitWidth(100);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void render() {
-		changeHeightandWidth(60,80);
-		cannonView.setFitHeight(100);
-		cannonView.setFitWidth(100);
+	
 		imageView.relocate(x-width/2, y-height);
-		cannonView.relocate((x-width/2)+width*0.15 , (y-height)-height*0.60);
+		cannonView.relocate((x-width/2)+width*0.25 , (y-height)-height*0.60);
 	
 	
 		cannonView.autosize();

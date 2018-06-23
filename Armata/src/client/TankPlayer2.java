@@ -12,16 +12,17 @@ public class TankPlayer2 extends Tank {
 	public TankPlayer2(Pane pane, double xPos, double yPos, double xVel, double yVel, double initialHealth) {
 		super(pane, xPos, yPos, xVel, yVel, initialHealth, "/icons/czolg-wrogi4duzy.png", "/icons/lufa3.png");
 		this.cannonAngle = 135;
+		changeHeightandWidth(60,100);
+		cannonView.setFitHeight(100);
+		cannonView.setFitWidth(100);
 	}
 
 	@Override
 	public void render() {
 
-		changeHeightandWidth(60,80);
-		cannonView.setFitHeight(100);
-		cannonView.setFitWidth(100);
+		
 		imageView.relocate(x-width/2, y-height);
-		cannonView.relocate((x-width/2)-width*0.35 , (y-height)-height*0.60);
+		cannonView.relocate((x-width/2)-width*0.28 , (y-height)-height*0.60);
 	
 		cannonView.setRotate(90 - cannonAngle);
 	}
