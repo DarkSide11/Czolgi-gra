@@ -309,6 +309,9 @@ public class Game {
 				}
 
 				break;
+			case Draw:
+				break;
+			
 			case Defeat:
 				break;
 			}

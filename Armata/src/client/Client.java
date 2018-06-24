@@ -88,7 +88,7 @@ public class Client {
 	 * @author Robert Adamczuk
 	 */
 	public void SendCoordinatesNoAmmo() {
-		output.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + 10*game.getActiveTank().y);	
+		output.println("SHOT " + "10" + ":" + game.getActiveTank().getCannonAngle() + ":" + game.getActiveTank().x + ":" + 10*game.getActiveTank().y+":"+game.getGameWind());	
 
 	}
 	
