@@ -520,7 +520,7 @@ public class Game {
 		waitingScreenView = new ImageView(waitingScreen);
 		
 		drawScreen = new Image("icons/draw3.png");
-		drawScreenView = new ImageView(waitingScreen);
+		drawScreenView = new ImageView(drawScreen);
 		
 		gameBackground = new Image("icons/Podlo¿e.png");
 		gameBackgroundImageView= new ImageView(gameBackground);
